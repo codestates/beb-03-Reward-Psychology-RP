@@ -1,7 +1,7 @@
 import React from "react";
 
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import searchIcon from "../img/search.png";
 import postIcon from "../img/pencil.png";
 import userIcon from "../img/user.png";
@@ -13,7 +13,7 @@ const TopFix = styled.div`
     position: fixed;
     z-index: 99;
     top: 0ps;
-    height: 5%;
+    height: 6%;
     width: 100%;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.23);
     background: #ffffff;
@@ -84,11 +84,12 @@ const SearchButton = styled.img`
     filter: opacity(0.5) drop-shadow(0 0 0 #cccccc);
 `;
 
-const PostButton = styled.img`
+const PostButton = styled(Link)`
     position: absolute;
+    display: flex;
     /* top: 0.3%;
     right: 13%; */
-    right: 10%;
+    right: 6%;
     border-style: solid;
     border-width: 2px;
     border-color: #555555;
@@ -100,8 +101,9 @@ const PostButton = styled.img`
     width: 1rem;
 `;
 
-const MypageButton = styled.img`
+const MypageButton = styled(Link)`
     position: absolute;
+    display: flex;
     /* background-color: green; */
     /* top: 0.3%; */
     border-style: solid;
@@ -109,26 +111,46 @@ const MypageButton = styled.img`
     border-color: #555555;
     border-radius: 15px;
     padding: 8px;
-    right: 6%;
+    right: 3%;
     height: 1rem;
     width: 1rem;
 `;
 
+// const Icon = styled.img`
+//     position: absolute;
+// `;
+
 const LogInButton = styled.img``;
 
 function NavBar({ isLoggedIn }) {
+    function Post({ to, src }) {
+        return (
+            <PostButton to={to}>
+                <img src={src} />
+            </PostButton>
+        );
+    }
+    function Mypage({ to, src }) {
+        return (
+            <MypageButton to={to}>
+                <img src={src} />
+            </MypageButton>
+        );
+    }
     return (
         <TopFix>
-            <HomeButton>
-                <HomeLogo src={logoIcon} />
-                <HomeName>Reward Psychology</HomeName>
-            </HomeButton>
+            <Link to="/">
+                <HomeButton>
+                    <HomeLogo src={logoIcon} />
+                    <HomeName>Reward Psychology</HomeName>
+                </HomeButton>
+            </Link>
             <Search>
                 <SearchInput value="Search"></SearchInput>
                 <SearchButton src={searchIcon} />
             </Search>
-            {isLoggedIn ? <PostButton src={postIcon} /> : null}
-            {isLoggedIn ? <MypageButton src={userIcon} /> : null}
+            {isLoggedIn ? <Post to="/post" src={postIcon} /> : null}
+            {isLoggedIn ? <Mypage to="/mypage" src={userIcon} /> : null}
         </TopFix>
     );
 }
