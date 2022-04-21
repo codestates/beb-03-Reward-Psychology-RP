@@ -9,3 +9,9 @@ const TopFix = styled.div`
   top: 0ps;
   width: 100%;
 `;
+
+function Footer() {
+  return <div></div>;
+}
+
+export default Footer;
