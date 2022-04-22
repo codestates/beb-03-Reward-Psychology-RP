@@ -10,7 +10,7 @@ const edit = (req, res) => {
   return res.send("Edit");
 };
 
-userRouter.get("/logout", logout);
-userRouter.get("/edit", edit);
+userRouter.get("/:userId/logout", logout);
+userRouter.get("/:userId/edit", edit);
 
 export default userRouter;

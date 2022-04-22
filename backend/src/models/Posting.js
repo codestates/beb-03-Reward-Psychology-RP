@@ -7,10 +7,17 @@ const postingSchema = new mongoose.Schema({
   contents: String,
   hashtags: [{ type: String }],
   meta: {
-    voting: Number,
-    views: Number,
-    comments: Number,
+    voting: { type: Number, default: 0 },
+    views: { type: Number, default: 0 },
+    comments: { type: Number, default: 0 },
   },
+});
+
+postingSchema.static("", function (hashtags) {
+  // console.log(this.hashtags);
+  return hashtags
+    .split(",")
+    .map((hashtag) => (hashtag.startsWith("#") ? hashtag : `#${hashtag}`));
 });
 
 const Posting = mongoose.model("Posting", postingSchema);
