@@ -13,7 +13,7 @@ const TopFix = styled.div`
     position: fixed;
     z-index: 99;
     top: 0ps;
-    height: 6%;
+    height: 5%;
     width: 100%;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.23);
     background: #ffffff;
