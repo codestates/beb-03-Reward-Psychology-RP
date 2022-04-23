@@ -17,7 +17,7 @@ function NewPost() {
     const [title, setTitle] = useState('');
     const [mainBody, setMainBody] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
-    // const re = /[A-Za-z0-9]/;
+    const re = /[^A-Za-z0-9#,]/;
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -31,7 +31,7 @@ function NewPost() {
 
     const sliceHashtag = (s) => {
         if (s) {
-            setHashtagArr((currArr) => [...currArr, s]);
+            setHashtagArr((currArr) => [...currArr].concat(s));
             setSingleTag('#');
         } else {
             setAnchorEl(true);
@@ -45,15 +45,18 @@ function NewPost() {
             setMainBody(event.target.value);
         } else {
             const leng = event.target.value.length;
-            if (
-                event.target.value[leng - 1] === ' ' ||
-                (event.target.value[leng - 1] === '#' && leng > 1)
-            ) {
-                if (event.target.value.slice(1) !== '#') {
-                    sliceHashtag(event.target.value.slice(1, leng - 1));
+            if (!event.target.value.match(re)) {
+                if (
+                    event.target.value[leng - 1] === ' ' ||
+                    event.target.value[leng - 1] === ',' ||
+                    (event.target.value[leng - 1] === '#' && leng > 1)
+                ) {
+                    if (event.target.value.slice(1) !== '#') {
+                        sliceHashtag(event.target.value.slice(1, leng - 1));
+                    }
+                } else {
+                    setSingleTag(event.target.value);
                 }
-            } else {
-                setSingleTag(event.target.value);
             }
         }
     };

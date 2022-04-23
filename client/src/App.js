@@ -3,8 +3,8 @@ import { Route, Routes } from 'react-router-dom';
 import NavBar from './component/NavBar';
 import Main from './page/main';
 import Mypage from './page/mypage';
-import NewPost from './page/newpost';
-import ReadPost from './page/readpost';
+import NewPost from './page/newPost';
+import ReadPost from './page/readPost';
 
 function App() {
     return (
