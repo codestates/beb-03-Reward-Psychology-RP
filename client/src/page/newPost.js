@@ -1,14 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
+import { Container, Grid, Paper, Typography, Popover } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Container } from '@mui/material';
 import Button from '@mui/material/Button';
-import { Grid } from '@mui/material';
-import { Paper } from '@mui/material';
-import { Typography } from '@mui/material';
-import { Popover } from '@mui/material';
 const axios = require('axios');
 
 function NewPost() {
@@ -62,18 +58,19 @@ function NewPost() {
     };
 
     async function sendReq() {
-        if (title.length < 1) {
-            alert('');
-        }
-        const payload = {
-            title: title,
-            contents: mainBody,
-            hashtags: hashtagArr.join(),
-        };
-        const res = await axios.post('http://localhost:3001/gg', payload);
+        if (title.length < 2) {
+            alert('Write title at least 2 character!');
+        } else {
+            const payload = {
+                title: title,
+                contents: mainBody,
+                hashtags: hashtagArr.join(),
+            };
+            const res = await axios.post('http://localhost:3001/gg', payload);
 
-        const data = res.data;
-        console.log(data);
+            const data = res.data;
+            console.log(data);
+        }
     }
 
     return (
