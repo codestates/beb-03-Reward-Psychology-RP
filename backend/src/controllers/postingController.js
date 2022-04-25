@@ -25,18 +25,6 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = async (req, res) => {
-  // const postingSchema = new mongoose.Schema({
-  //   userId: String,
-  //   title: { type: String, trim: true, maxlength: 50 },
-  //   createdAt: { type: Date, default: Date.now },
-  //   contents: { type: String, trim: true, minlength: 20 },
-  //   hashtags: [{ type: String, trim: true }],
-  //   meta: {
-  //     voting: { type: Number, default: 0 },
-  //     views: { type: Number, default: 0 },
-  //     comments: { type: Number, default: 0 },
-  //   },
-  // });
   const { title, contents, hashtags } = req.body;
   try {
     await Posting.create({
