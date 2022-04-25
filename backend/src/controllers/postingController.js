@@ -1,9 +1,10 @@
-import Posting from "../models/Posting";
+import Posting from "../models/Posting.js";
 
 export const home = async (req, res) => {
   try {
     const postings = await Posting.find({}).sort({ createdAt: "desc" });
-    return res.render("Home", { postings });
+    return res.send("home Page Success");
+    // .render("Home", { postings });
   } catch (error) {
     return res.send("This is not the web page you are looking for!");
   }
@@ -17,11 +18,13 @@ export const search = async (req, res) => {
       title: { $regex: new RegExp(keyword, i) },
     });
   }
-  return res.render("search", postings);
+  return res.send(postings);
+  // .render("search", postings);
 };
 
 export const getUpload = (req, res) => {
-  return res.render("Upload");
+  return res.send("Get Upload page Success");
+  // .render("Upload");
 };
 
 export const postUpload = async (req, res) => {
@@ -35,52 +38,58 @@ export const postUpload = async (req, res) => {
     return res.redirect("/");
   } catch (error) {
     console.log("❌ Post Upload Error:", error);
-    return res.status(400).render("Upload");
+    return res.status(400).send("Fail Post Upload");
+    // .render("Upload");
   }
 };
 
 export const watch = async (req, res) => {
-  const {id} =req.params;
+  const { id } = req.params;
   const posting = Posting.findById(id);
 
-  if(!posting){
+  if (!posting) {
     console.log("404 Not Found!");
-    return res.status(404).render("404");
+    return res.status(404).send("404 Not Found!");
+    // .render("404");
   }
 
-  return res.render("Watch", posting)
+  return res.send(posting);
+  // .render("Watch", posting);
 };
 
-export const getEdit = (req, res) => {
-  const {id} = req.params;
+export const getEdit = async (req, res) => {
+  const { id } = req.params;
   const posting = await Posting.findById(id);
-  if(!posting) {
+  if (!posting) {
     console.log("404 Not Found!");
-    return res.status(404).render("404");
+    return res.status(404).send("404 Not Found!");
+    // .render("404");
   }
-  return res.render("Edit", posting);
+  return res.send(posting);
+  // .render("Edit", posting);
 };
 
 export const postEdit = async (req, res) => {
-  const {id} = req.params;
-  const posting = await Posting.exists({_id:id});
-  const {title, contents, hashtags} = req.body;
+  const { id } = req.params;
+  const posting = await Posting.exists({ _id: id });
+  const { title, contents, hashtags } = req.body;
 
-  if(!posting) {
+  if (!posting) {
     console.log("404 Not Found!");
-    return res.status(404).render("404");
+    return res.status(404).send("404 Not Found!");
+    // .render("404");
   }
 
-  await Posting.findByIdAndUpdate(id,{
+  await Posting.findByIdAndUpdate(id, {
     title,
     contents,
-    hashtags: Posting.formatHashtags(hashtags)
-  })
+    hashtags: Posting.formatHashtags(hashtags),
+  });
 };
 
 export const deletePosting = async (req, res) => {
   const { id } = req.body;
-  
+
   await Posting.findByIdAndDelete(id);
 
   return res.redirect("/");
