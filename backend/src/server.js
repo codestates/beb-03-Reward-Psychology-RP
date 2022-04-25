@@ -1,9 +1,9 @@
-import "./db";
-import ".models/Posting";
-import "./models/User";
+import "./db.js";
+import "./models/Posting.js";
+import "./models/User.js";
 import express from "express";
 import morgan from "morgan";
-import globalRouter from "./routers/globalRouter";
+import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
 import postingRouter from "./routers/postingRouter";
 
@@ -12,7 +12,7 @@ const logger = morgan("dev");
 const PORT = 4000;
 
 app.use(logger);
-app.use("/", globalRouter);
+app.use("/", rootRouter);
 app.use("/users", userRouter);
 app.use("/posts", postingRouter);
 
