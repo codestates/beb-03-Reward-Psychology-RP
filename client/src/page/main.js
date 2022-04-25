@@ -1,7 +1,4 @@
 import * as React from "react";
-
-// import styled from "styled-components";
-
 import PostSummary from "../component/postSummary";
 
 //mui
@@ -10,20 +7,6 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 
-// const PostContainer = styled.ul`
-//     top: 15%;
-//     left: 32%;
-//     width: 55%;
-//     height: 100%;
-
-//     background-color: green;
-//     justify-content: center;
-//     position: absolute;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: flex-start;
-//     align-items: flex-start;
-// `;
 
 const PostContainer = styled(Box)(({ theme }) => ({
     position: "aboslute",
