@@ -208,6 +208,54 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "mintToken",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address[]",
+						"name": "toArr",
+						"type": "address[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "amountArr",
+						"type": "uint256[]"
+					}
+				],
+				"name": "multiMintToken",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "name",
 				"outputs": [
@@ -368,6 +416,7 @@
 		"userdoc": {
 			"kind": "user",
 			"methods": {},
+			"notice": "rpToken v 1.1",
 			"version": 1
 		}
 	},
@@ -420,11 +469,11 @@
 			]
 		},
 		"RP_ERC20.sol": {
-			"keccak256": "0xf42659ea6be44c38f36ef83dfe16db88ce066981cbd9c888cc7912745ab502fd",
+			"keccak256": "0x763c8c8487d9ea2b06e3804328975c856eceb7ec5cdaa894b6b8713c36748e24",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://449ab326bfd4be1d30902587c7c2a73d3f3f3f841edaef1c2b5c6bfd3bcf9264",
-				"dweb:/ipfs/QmV5EPEViGYXdS5KzMhFqEgtp2XpPkLxYAvR2YHrVaUe7j"
+				"bzz-raw://957bf01e4bd97a440538708b487e78a1aea374b8f41895f6d3556a5163fe4461",
+				"dweb:/ipfs/QmVARpdw7PcWucUYuE5sRxYvFjatcf4zB2HYEu2JEiTHss"
 			]
 		}
 	},
