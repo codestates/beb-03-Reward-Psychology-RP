@@ -15,9 +15,11 @@ const postingSchema = new mongoose.Schema({
 
 postingSchema.static("formatHashtags", function (hashtags) {
   // console.log(this.hashtags);
-  return hashtags
-    .split(",")
-    .map((hashtag) => (hashtag.startsWith("#") ? hashtag : `#${hashtag}`));
+  return (
+    hashtags
+      // .split(",")
+      .map((hashtag) => (hashtag.startsWith("#") ? hashtag : `#${hashtag}`))
+  );
 });
 
 const Posting = mongoose.model("Posting", postingSchema);
