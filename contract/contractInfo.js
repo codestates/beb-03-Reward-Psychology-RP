@@ -1,4 +1,4 @@
-const rpAdress = 0xc2f7cf6770083ba3577983700617d5d93d863a0c;
+const rpAddress = 0xc2f7cf6770083ba3577983700617d5d93d863a0c;
 
 const rpABI = [
     {
@@ -284,6 +284,63 @@ const rpABI = [
                 type: "bool",
             },
         ],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+];
+
+const rpNFTAddress = 0x4ec91ebab7355b981aa1eff4fb500c337effb892;
+
+const rpNFTABI = [
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: true,
+                internalType: "address",
+                name: "previousOwner",
+                type: "address",
+            },
+            {
+                indexed: true,
+                internalType: "address",
+                name: "newOwner",
+                type: "address",
+            },
+        ],
+        name: "OwnershipTransferred",
+        type: "event",
+    },
+    {
+        inputs: [],
+        name: "owner",
+        outputs: [
+            {
+                internalType: "address",
+                name: "",
+                type: "address",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "renounceOwnership",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "address",
+                name: "newOwner",
+                type: "address",
+            },
+        ],
+        name: "transferOwnership",
+        outputs: [],
         stateMutability: "nonpayable",
         type: "function",
     },
