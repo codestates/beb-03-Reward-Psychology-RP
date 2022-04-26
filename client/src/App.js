@@ -5,20 +5,19 @@ import Main from './page/main';
 import Mypage from './page/mypage';
 import NewPost from './page/newPost';
 import ReadPost from './page/readPost';
-import { useState } from 'react';
+import UserIdentify from './page/userIdentify';
 
 function App() {
-    // const [isLoggedIn, setIsLoggedIn] = useState(false);
-
     return (
         <div className="App">
-            <NavBar isLoggedIn={true} />
+            <NavBar />
             <div>
                 <Routes>
                     <Route path="/" element={<Main />} />
                     <Route path="/mypage" element={<Mypage />} />
                     <Route path="/newpost" element={<NewPost />} />
                     <Route path="/readpost" element={<ReadPost />} />
+                    <Route path="/useridentify" element={<UserIdentify />} />
                 </Routes>
             </div>
         </div>

@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from 'react';
 
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import searchIcon from "../img/search.png";
-import postIcon from "../img/pencil.png";
-import userIcon from "../img/user.png";
-import logoIcon from "../img/logo.png";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import searchIcon from '../img/search.png';
+import postIcon from '../img/pencil.png';
+import userIcon from '../img/user.png';
+import logoIcon from '../img/logo.png';
 
 const TopFix = styled.div`
     display: flex;
@@ -120,9 +120,11 @@ const MypageButton = styled(Link)`
 //     position: absolute;
 // `;
 
-const LogInButton = styled.img``;
+// const LogInButton = styled.img``;
 
-function NavBar({ isLoggedIn }) {
+function NavBar() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
     function Post({ to, src }) {
         return (
             <PostButton to={to}>
@@ -130,6 +132,7 @@ function NavBar({ isLoggedIn }) {
             </PostButton>
         );
     }
+
     function Mypage({ to, src }) {
         return (
             <MypageButton to={to}>
@@ -137,6 +140,7 @@ function NavBar({ isLoggedIn }) {
             </MypageButton>
         );
     }
+
     return (
         <TopFix>
             <Link to="/">
@@ -149,8 +153,16 @@ function NavBar({ isLoggedIn }) {
                 <SearchInput value="Search"></SearchInput>
                 <SearchButton src={searchIcon} />
             </Search>
-            {isLoggedIn ? <Post to="/post" src={postIcon} /> : null}
-            {isLoggedIn ? <Mypage to="/mypage" src={userIcon} /> : null}
+            {isLoggedIn ? <Post to="/newpost" src={postIcon} /> : null}
+            {isLoggedIn ? (
+                <Mypage to={'/mypage'} src={userIcon} />
+            ) : (
+                <Mypage
+                    to={'/userIdentify'}
+                    setIsLoggedIn={setIsLoggedIn}
+                    src={userIcon}
+                />
+            )}
         </TopFix>
     );
 }

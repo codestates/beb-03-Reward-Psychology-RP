@@ -1,22 +1,22 @@
-import React from "react";
+import React from 'react';
 
-import styled from "styled-components";
-import Link from "@mui/material/Link";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
+import styled from 'styled-components';
+// import Link from "@mui/material/Link";
+// import Box from "@mui/material/Box";
+import Card from '@mui/material/Card';
 // import CardActions from "@mui/material/CardActions";
 // import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
+// import Button from "@mui/material/Button";
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
 import {
     Link as RouterLink,
     LinkProps as RouterLinkProps,
     MemoryRouter,
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import commentIcon from "../img/comment.png";
-import upvoteIcon from "../img/upvote.png";
+import commentIcon from '../img/comment.png';
+import upvoteIcon from '../img/upvote.png';
 
 // prop forwarding 을 이용하자
 
@@ -60,13 +60,13 @@ function PostSummary({
                 paddingLeft: 2,
                 paddingTop: 0,
                 paddingBottom: 0,
-                flexDirection: "row",
-                alignContent: "left",
+                flexDirection: 'row',
+                alignContent: 'left',
             }}
         >
             <Stack direction="row">
                 <Typography
-                    sx={{ fontSize: 12, fontWeight: "bold" }}
+                    sx={{ fontSize: 12, fontWeight: 'bold' }}
                     gutterBottom
                     align="left"
                 >
@@ -85,7 +85,7 @@ function PostSummary({
             <Typography
                 variant="h5"
                 component="div"
-                sx={{ fontSize: 20, fontWeight: "bold" }}
+                sx={{ fontSize: 20, fontWeight: 'bold' }}
                 align="left"
             >
                 {title}

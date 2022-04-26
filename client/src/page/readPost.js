@@ -1,4 +1,4 @@
-import { Container, Grid, Paper, Typography, Link } from '@mui/material';
+import { Container, Grid, Paper, Link } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';

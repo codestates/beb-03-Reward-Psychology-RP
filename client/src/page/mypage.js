@@ -33,7 +33,7 @@ function Mypage() {
             <Typography variant="h3">{userName}</Typography>
             <Box>
                 RP Wallet Address: {addr}
-                <IconButton aria-label="delete" onClick={copyWalletAccount}>
+                <IconButton onClick={copyWalletAccount}>
                     <ContentCopyIcon />
                 </IconButton>
             </Box>

@@ -1,14 +1,14 @@
-import * as React from "react";
+import * as React from 'react';
 
 // import styled from "styled-components";
 
-import PostSummary from "../component/postSummary";
+import PostSummary from '../component/postSummary';
 
 //mui
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
-import { styled } from "@mui/material/styles";
+import Box from '@mui/material/Box';
+// import Paper from "@mui/material/Paper";
+import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
 
 // const PostContainer = styled.ul`
 //     top: 15%;
@@ -26,12 +26,12 @@ import { styled } from "@mui/material/styles";
 // `;
 
 const PostContainer = styled(Box)(({ theme }) => ({
-    position: "aboslute",
-    display: "flex",
-    flexDirection: "column",
+    position: 'aboslute',
+    display: 'flex',
+    flexDirection: 'column',
     boxShadow: 3,
-    top: "200px",
-    left: "26%",
+    top: '200px',
+    left: '26%',
 }));
 
 function main() {

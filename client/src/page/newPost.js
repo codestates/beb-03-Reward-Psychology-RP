@@ -13,7 +13,7 @@ function NewPost() {
     const [title, setTitle] = useState('');
     const [mainBody, setMainBody] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
-    const re = /[^A-Za-z0-9#,]/;
+    const re = /[^A-Za-z0-9#,\s]/;
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
