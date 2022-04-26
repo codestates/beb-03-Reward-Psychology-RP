@@ -199,11 +199,11 @@
 			]
 		},
 		"RP_ERC20.sol": {
-			"keccak256": "0x3037e57eb632d83a08270fa60a976a68b6bd5e90da9605e97426c71eb94b1eb0",
+			"keccak256": "0xeffcc584d9bb3592d6b50bd4bec7c0a261538bae09a8cf34ebc8fd197753abd0",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://9f106534cd0f1a25daad24e04ce3572c7c9308daddc1788ab6a5b89d7d74a9f2",
-				"dweb:/ipfs/QmTtiBi4yh5WJ9hjJXSyHrmL4snGWsNoNQwcHmYrP8JHgH"
+				"bzz-raw://64148bd620738043a9ec9116d7e74939b3b70108fc9facac3b35b5c14a9bb9ca",
+				"dweb:/ipfs/QmWeRv3UL9y44hcgzREQLmydNCt4uSCh1vq4bZTWmnyzem"
 			]
 		}
 	},

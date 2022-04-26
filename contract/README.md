@@ -1,6 +1,18 @@
 현재 배포중인 컨트랙트
 
+## 배포 후 주의사항
+
+RPNFT의 transferOwner를 RPToken Contract address 로 변경
+
+RPToken의 setNFTAddress로 RPNFT Contract address 입력
+
 contractInfo.js에 컨트랙트 주소와 abi import가능
+
+### 4월 26일
+
+## RPToken v 2.0
+
+## RPNFT v 1.0
 
 ## RPToken v 1.1
 

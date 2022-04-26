@@ -479,7 +479,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"RP_ERC20.sol": "RPNFT"
+			"RP_ERC721.sol": "RPNFT"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -499,30 +499,6 @@
 			"urls": [
 				"bzz-raw://e12cbaa7378fd9b62280e4e1d164bedcb4399ce238f5f98fc0eefb7e50577981",
 				"dweb:/ipfs/QmXRoFGUgfsaRkoPT5bxNMtSayKTQ8GZATLPXf69HcRA51"
-			]
-		},
-		"@openzeppelin/contracts/token/ERC20/ERC20.sol": {
-			"keccak256": "0xdadd41acb749920eccf40aeaa8d291adf9751399a7343561bad13e7a8d99be0b",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://12af4ac016f9fdf3be5d15824f4292272aa11f6b2e0192a0f7320f5ad49bbbf0",
-				"dweb:/ipfs/QmRXMpdqCgA3TYuYxBodqs5p9jGbnMW6xa2gvjppvq4TWk"
-			]
-		},
-		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
-			"keccak256": "0xbbc8ac883ac3c0078ce5ad3e288fbb3ffcc8a30c3a98c0fda0114d64fc44fca2",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://87a7a5d2f6f63f84598af02b8c50ca2df2631cb8ba2453e8d95fcb17e4be9824",
-				"dweb:/ipfs/QmR76hqtAcRqoFj33tmNjcWTLrgNsAaakYwnKZ8zoJtKei"
-			]
-		},
-		"@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": {
-			"keccak256": "0x8de418a5503946cabe331f35fe242d3201a73f67f77aaeb7110acb1f30423aca",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://5a376d3dda2cb70536c0a45c208b29b34ac560c4cb4f513a42079f96ba47d2dd",
-				"dweb:/ipfs/QmZQg6gn1sUpM8wHzwNvSnihumUCAhxD119MpXeKp8B9s8"
 			]
 		},
 		"@openzeppelin/contracts/token/ERC721/ERC721.sol": {
@@ -613,12 +589,12 @@
 				"dweb:/ipfs/QmP7C3CHdY9urF4dEMb9wmsp1wMxHF6nhA2yQE5SKiPAdy"
 			]
 		},
-		"RP_ERC20.sol": {
-			"keccak256": "0x3037e57eb632d83a08270fa60a976a68b6bd5e90da9605e97426c71eb94b1eb0",
-			"license": "GPL-3.0",
+		"RP_ERC721.sol": {
+			"keccak256": "0x864b7afe0164b7fe85c5e9bbc83123eac953121609f6127e0df7d54125da7aac",
+			"license": "MIT",
 			"urls": [
-				"bzz-raw://9f106534cd0f1a25daad24e04ce3572c7c9308daddc1788ab6a5b89d7d74a9f2",
-				"dweb:/ipfs/QmTtiBi4yh5WJ9hjJXSyHrmL4snGWsNoNQwcHmYrP8JHgH"
+				"bzz-raw://66c93d231c01027e6255cd5fe5e6f5fcddd6080bed6a4c5dbbd52730b5e90abf",
+				"dweb:/ipfs/QmdPuzsqniM8BebLRS86AswNadauQtvYFKbfuqrcMPU9Z5"
 			]
 		}
 	},
