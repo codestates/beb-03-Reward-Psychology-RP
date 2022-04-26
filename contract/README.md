@@ -2,9 +2,9 @@
 
 ## 배포 후 주의사항
 
-RPNFT의 transferOwner를 RPToken Contract address 로 변경
+1. RPNFT의 transferOwner로 RPToken Contract address 변경
 
-RPToken의 setNFTAddress로 RPNFT Contract address 입력
+2. RPToken의 setNFTAddress로 RPNFT Contract address 입력
 
 contractInfo.js에 컨트랙트 주소와 abi import가능
 
@@ -12,7 +12,13 @@ contractInfo.js에 컨트랙트 주소와 abi import가능
 
 ## RPToken v 2.0
 
+0xc69a409cF0F0500F9dC00e09A0be7Cd5F072dD62
+
 ## RPNFT v 1.0
+
+0xb4b0A0bFCF54912d3073Be3f587E644eD853e653
+
+### 4월 25일
 
 ## RPToken v 1.1
 

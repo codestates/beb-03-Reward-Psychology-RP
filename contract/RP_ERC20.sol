@@ -134,7 +134,7 @@ contract RPToken is ERC20, OwnerHelper {
      */
     function buyNFT(uint productNum) public returns(bool) {
         // 토큰 송금
-        require(_nftAddress != 0x0, "rpToken: please set NFT contract address")
+        require(_nftAddress != 0x0, "rpToken: please set NFT contract address");
         require(productNum < productCount, "rpToken: product is not exist");
         require(balanceOf(msg.sender) >= products[productNum].price, "rpToken: not enough RP Token");
         transfer(_owner, products[productNum].price);
