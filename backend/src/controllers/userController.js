@@ -14,6 +14,7 @@ export const postJoin = async (req, res) => {
   if (password !== password2) {
     return res.status(400).send("Password Confirmation does not match");
   }
+
   if (!userNameOrEmailExists) {
     return res.status(400).send("Join Error: This user is already registered");
     // .render("Join", { errorMessage: "This user is already registered." });
