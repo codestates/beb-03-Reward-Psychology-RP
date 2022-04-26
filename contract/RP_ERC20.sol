@@ -60,9 +60,9 @@ abstract contract OwnerHelper {
 }
 
 /**
- * rpToken v 1.1
+ * RPToken v 2.0
  */
-contract rpToken is ERC20, OwnerHelper {
+contract RPToken is ERC20, OwnerHelper {
     
     struct Product {
         uint256 price;
