@@ -15,11 +15,9 @@ const handleListening = () => {
   console.log(`✅ Server listening on port http://localhost:${PORT}`);
 };
 
-app.set("view engine", "ejs");
-app.set("views", "./views");
-
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
+
 app.use("/", rootRouter);
 app.use("/users", userRouter);
 app.use("/posts", postingRouter);

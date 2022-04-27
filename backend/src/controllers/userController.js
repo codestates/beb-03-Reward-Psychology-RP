@@ -1,12 +1,15 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import lightwallet from "eth-lightwallet";
 
 export const getJoin = (req, res) => {
   return res.send("Join");
 };
 
 export const postJoin = async (req, res) => {
-  const { email, userName, password, password2, profileImage } = req.body;
+  const { email, userName, password, password2 } = req.body;
+  const mnemonic = lightwallet.keystore.generateRandomSeed();
+  let address;
   const userNameOrEmailExists = await User.find({
     $or: [{ email }, { userName }],
   });
@@ -21,10 +24,33 @@ export const postJoin = async (req, res) => {
   }
 
   try {
+    lightwallet.keystore.createVault(
+      {
+        password: password,
+        seedPhrase: mnemonic,
+        hdPathString: "m/0'/0'/0'",
+      },
+      function (err, ks) {
+        ks.keyFromPassword(password, function (err, pwDerivedKey) {
+          ks.generateNewAddress(pwDerivedKey, 1);
+
+          address = ks.getAddresses().toString();
+
+          console.log("⭐️⭐️⭐️ 지갑 주소입니다:", address);
+          console.log(
+            "⭐️⭐️⭐️ private key 인 거 같은데 확인이 필요합니다:",
+            ks.encPrivKeys[address.substring(2)].key
+          );
+          //   let keystore = ks.serialize();
+        });
+      }
+    );
+
     await User.create({
       email,
       userName,
       password,
+      address,
     });
     return res.send("to Login Page, Success Join");
     // .render("Login");
