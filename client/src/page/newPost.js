@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 const axios = require('axios');
 
 function NewPost() {
-    const [editSeq, setEditSeq] = useState(false);
+    const [editSeq, setEditSeq] = useState(true);
     const [value, setValue] = useState();
     const [singleTag, setSingleTag] = useState('#');
     const [hashtagArr, setHashtagArr] = useState([]);
@@ -21,7 +21,8 @@ function NewPost() {
     useEffect(() => {
         if (editSeq) {
             setEditSeq(false);
-            setValue('wefawergfaergetheh');
+            setMainBody('wewefweffawergfaergetheh');
+            setTitle('gfaergetheh');
             setHashtagArr([
                 'asdfas',
                 'asdfasdweff',
@@ -51,6 +52,7 @@ function NewPost() {
     };
 
     const handleChange = (event) => {
+        console.log(event.target);
         if (event.target.id === 'outlined-basic_title') {
             setTitle(event.target.value);
         } else if (event.target.id === 'outlined-multiline-static') {
@@ -110,7 +112,7 @@ function NewPost() {
                     variant="outlined"
                     placeholder="Write Title!"
                     fullWidth="true"
-                    default={value}
+                    defaultValue={title}
                     onChange={handleChange}
                     sx={{ mt: 11 }}
                 />
@@ -119,7 +121,7 @@ function NewPost() {
                     label="Story"
                     multiline
                     rows={20}
-                    defaultValue={value}
+                    defaultValue={mainBody}
                     placeholder="Write Your Story!"
                     fullWidth="true"
                     onChange={handleChange}
