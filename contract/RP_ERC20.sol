@@ -60,7 +60,7 @@ abstract contract OwnerHelper {
 }
 
 /**
- * RPToken v 2.0
+ * RPToken v 2.1
  */
 contract RPToken is ERC20, OwnerHelper {
     
@@ -73,7 +73,7 @@ contract RPToken is ERC20, OwnerHelper {
     uint productCount = 0;
     address private _nftAddress;
 
-    constructor() ERC20("RP Token", "RPT") {
+    constructor() public ERC20("RP Token", "RPT") {
         _mint(msg.sender, 1000000000000e18);
 
         products[0] = Product({
@@ -134,7 +134,7 @@ contract RPToken is ERC20, OwnerHelper {
      */
     function buyNFT(uint productNum) public returns(bool) {
         // 토큰 송금
-        require(_nftAddress != 0x0, "rpToken: please set NFT contract address");
+        require(_nftAddress != address(0x0), "rpToken: please set NFT contract address");
         require(productNum < productCount, "rpToken: product is not exist");
         require(balanceOf(msg.sender) >= products[productNum].price, "rpToken: not enough RP Token");
         transfer(_owner, products[productNum].price);

@@ -8,6 +8,24 @@
 
 contractInfo.js에 컨트랙트 주소와 abi import가능
 
+## RPToken v 2.1
+
+0xb2223FF50e9948839c0134321CDCaCB79f050E39
+
+https://ropsten.etherscan.io/address/0xb2223ff50e9948839c0134321cdcacb79f050e39
+
+## RPNFT v 1.0
+
+0x6CE712693979cE2c8D8B73b2523D18BD2a42452C
+
+https://ropsten.etherscan.io/address/0x6ce712693979ce2c8d8b73b2523d18bd2a42452c
+
+## .
+
+## .
+
+## .
+
 ### 4월 26일
 
 ## RPToken v 2.0
