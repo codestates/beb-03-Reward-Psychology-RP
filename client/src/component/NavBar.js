@@ -123,7 +123,7 @@ const MypageButton = styled(Link)`
 // const LogInButton = styled.img``;
 
 function NavBar() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     function Post({ to, src }) {
         return (

@@ -9,6 +9,7 @@ import Card from '@mui/material/Card';
 // import Button from "@mui/material/Button";
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+
 import {
     Link as RouterLink,
     LinkProps as RouterLinkProps,
@@ -63,6 +64,7 @@ function PostSummary({
                 flexDirection: 'row',
                 alignContent: 'left',
             }}
+            // onClick={pageSwift}
         >
             <Stack direction="row">
                 <Typography

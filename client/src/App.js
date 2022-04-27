@@ -16,7 +16,7 @@ function App() {
                     <Route path="/" element={<Main />} />
                     <Route path="/mypage" element={<Mypage />} />
                     <Route path="/newpost" element={<NewPost />} />
-                    <Route path="/readpost" element={<ReadPost />} />
+                    <Route path="/readpost/:id" element={<ReadPost />} />
                     <Route path="/useridentify" element={<UserIdentify />} />
                 </Routes>
             </div>

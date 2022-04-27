@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // import styled from "styled-components";
 
@@ -9,6 +10,7 @@ import Box from '@mui/material/Box';
 // import Paper from "@mui/material/Paper";
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
+import axios from 'axios';
 
 // const PostContainer = styled.ul`
 //     top: 15%;
@@ -34,49 +36,37 @@ const PostContainer = styled(Box)(({ theme }) => ({
     left: '26%',
 }));
 
-function main() {
+function Main() {
+    const [data, setData] = useState();
+
+    useEffect(() => {
+        axios.get('http://localhost:4000/').then((res) => {
+            setData(res.data);
+        });
+    }, []);
+
     return (
-        <PostContainer>
+        <PostContainer sx={{ pt: 11 }}>
             <Stack spacing={2}>
-                <PostSummary
-                    writer="me"
-                    createdAt="20205170623"
-                    title="testTitle1111"
-                    contents="test contents test contents test contents test contents test contents"
-                    likesCount={11}
-                    commentsCount={16}
-                    postURL="/"
-                />
-                <PostSummary
-                    writer="me"
-                    createdAt="20205170623"
-                    title="testTitle2222"
-                    contents="contents test test contents test contents test contents test contentstest contents"
-                    likesCount={11}
-                    commentsCount={16}
-                    postURL="/"
-                />
-                <PostSummary
-                    writer="me"
-                    createdAt="20205170623"
-                    title="testTitle3333"
-                    contents="test contents test contents test contents test contents test contents test contents test contents "
-                    likesCount={11}
-                    commentsCount={19}
-                    postURL="/"
-                />
-                <PostSummary
-                    writer="me"
-                    createdAt="20205170623"
-                    title="testTitle4444"
-                    contents="test contents test contents test contents test contents test contents test contents test contents "
-                    likesCount={112}
-                    commentsCount={191}
-                    postURL="/"
-                />
+                {data
+                    ? data.map((singlePost) => {
+                          return (
+                              <PostSummary
+                                  writer={singlePost.userId}
+                                  createdAt={singlePost.createdAt}
+                                  title={singlePost.title}
+                                  contents={singlePost.contents}
+                                  likesCount={singlePost.meta.voting}
+                                  commentsCount={singlePost.meta.comments}
+                                  postURL={`/readpost/${singlePost._id}`}
+                                  sx={{ mt: 2 }}
+                              />
+                          );
+                      })
+                    : null}
             </Stack>
         </PostContainer>
     );
 }
 
-export default main;
+export default Main;

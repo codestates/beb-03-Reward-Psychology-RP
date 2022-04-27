@@ -1,19 +1,35 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Grid, Paper, Typography, Popover } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+
 const axios = require('axios');
 
 function NewPost() {
+    const [editSeq, setEditSeq] = useState(false);
+    const [value, setValue] = useState();
     const [singleTag, setSingleTag] = useState('#');
     const [hashtagArr, setHashtagArr] = useState([]);
     const [title, setTitle] = useState('');
     const [mainBody, setMainBody] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
     const re = /[^A-Za-z0-9#,\s]/;
+
+    useEffect(() => {
+        if (editSeq) {
+            setEditSeq(false);
+            setValue('wefawergfaergetheh');
+            setHashtagArr([
+                'asdfas',
+                'asdfasdweff',
+                'asdfasdfasdf',
+                'asccdfasdf',
+            ]);
+        }
+    }, []);
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -57,6 +73,15 @@ function NewPost() {
         }
     };
 
+    const eliminateFromArr = (ev) => {
+        const selectedTag = ev.target.childNodes[1].data;
+        console.log(selectedTag);
+        const tempArr = hashtagArr.filter((tag) => {
+            return tag !== selectedTag;
+        });
+        setHashtagArr(tempArr);
+    };
+
     async function sendReq() {
         if (title.length < 2) {
             alert('Write title at least 2 character!');
@@ -66,7 +91,10 @@ function NewPost() {
                 contents: mainBody,
                 hashtags: hashtagArr.join(),
             };
-            const res = await axios.post('http://localhost:3001/gg', payload);
+            const res = await axios.post(
+                'http://localhost:4000/posts/upload',
+                payload
+            );
 
             const data = res.data;
             console.log(data);
@@ -82,6 +110,7 @@ function NewPost() {
                     variant="outlined"
                     placeholder="Write Title!"
                     fullWidth="true"
+                    default={value}
                     onChange={handleChange}
                     sx={{ mt: 11 }}
                 />
@@ -90,6 +119,7 @@ function NewPost() {
                     label="Story"
                     multiline
                     rows={20}
+                    defaultValue={value}
                     placeholder="Write Your Story!"
                     fullWidth="true"
                     onChange={handleChange}
@@ -101,7 +131,7 @@ function NewPost() {
                     variant="outlined"
                     placeholder="#"
                     fullWidth="true"
-                    default="#"
+                    default={hashtagArr}
                     sx={{ mt: 2 }}
                     value={singleTag}
                     onChange={handleChange}
@@ -129,7 +159,13 @@ function NewPost() {
                         {hashtagArr.map((tag) => {
                             return (
                                 <Grid item xs={3}>
-                                    <Item># {tag}</Item>
+                                    <Item
+                                        onClick={(ev) => {
+                                            eliminateFromArr(ev);
+                                        }}
+                                    >
+                                        # {tag}
+                                    </Item>
                                 </Grid>
                             );
                         })}
