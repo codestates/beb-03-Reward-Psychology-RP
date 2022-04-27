@@ -8,6 +8,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+<<<<<<< HEAD
+=======
+    "bcrypt": "^5.0.1",
+    "ejs": "^3.1.7",
+    "eth-lightwallet": "^4.0.0",
+>>>>>>> jeong
     "express": "^4.17.3",
     "mongoose": "^6.3.0",
     "morgan": "^1.10.0"

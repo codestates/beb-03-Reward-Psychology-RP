@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+<<<<<<< HEAD
 
 const userSchema = new mongoose.Schema({
   userId: Number,
@@ -6,6 +7,24 @@ const userSchema = new mongoose.Schema({
   profileImage: String,
   walletAddress: String,
   balanceOfOwner: Number,
+=======
+import bcrypt from "bcrypt";
+
+const userSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  userName: { type: String, required: true, unique: true },
+  password: { type: String, required: true, unique: true },
+  profileImage: {
+    type: String,
+    required: true,
+    default: "../images/rpProfileImage.png",
+  },
+  address: { type: String, unique: true },
+});
+
+userSchema.pre("save", async function () {
+  this.password = await bcrypt.hash(this.password, 5);
+>>>>>>> jeong
 });
 
 const User = mongoose.model("User", userSchema);
