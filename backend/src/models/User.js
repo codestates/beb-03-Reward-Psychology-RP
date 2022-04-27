@@ -10,8 +10,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     default: "../images/rpProfileImage.png",
   },
-  walletAddress: String,
-  balanceOfOwner: Number,
+  address: { type: String, unique: true },
 });
 
 userSchema.pre("save", async function () {
