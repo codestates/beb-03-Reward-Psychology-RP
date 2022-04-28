@@ -1,20 +1,22 @@
 {
-    "name": "daemon",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node index.js"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "axios": "^0.27.1",
-        "ethereumjs-tx": "^2.1.2",
-        "solc": "^0.8.13",
-        "web3": "^1.7.3",
-        "web3-eth-contract": "^1.7.3",
-        "web3-utils": "^1.7.3"
-    }
+  "name": "daemon",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.1",
+    "dotenv": "^16.0.0",
+    "ethereumjs-tx": "^2.1.2",
+    "solc": "^0.8.13",
+    "web3": "^1.7.3",
+    "web3-eth-contract": "^1.7.3",
+    "web3-utils": "^1.7.3"
+  }
 }
