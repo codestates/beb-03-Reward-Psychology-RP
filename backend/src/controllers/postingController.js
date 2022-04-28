@@ -3,8 +3,7 @@ import Posting from "../models/Posting.js";
 export const home = async (req, res) => {
   try {
     const postings = await Posting.find({}).sort({ createdAt: "desc" });
-    return res.send("home Page Success");
-    // .render("Home", { postings });
+    return res.send({ postings });
   } catch (error) {
     return res.send("This is not the web page you are looking for!");
   }
@@ -15,46 +14,44 @@ export const search = async (req, res) => {
   let postings = [];
   if (keyword) {
     postings = await Posting.find({
-      title: { $regex: new RegExp(keyword, i) },
+      title: { $regex: new RegExp(keyword, "i") },
     });
   }
   return res.send(postings);
-  // .render("search", postings);
 };
 
 export const getUpload = (req, res) => {
   return res.send("Get Upload page Success");
-  // .render("Upload");
 };
 
 export const postUpload = async (req, res) => {
   const { title, contents, hashtags } = req.body;
+  const { user } = req.session;
+
   try {
     await Posting.create({
       title,
       contents,
       hashtags: Posting.formatHashtags(hashtags),
+      owner: user,
     });
     return res.redirect("/");
   } catch (error) {
     console.log("❌ Post Upload Error:", error);
     return res.status(400).send("Fail Post Upload");
-    // .render("Upload");
   }
 };
 
 export const watch = async (req, res) => {
-  const { id } = req.params;
-  const posting = Posting.findById(id);
+  const { postingId } = req.params;
+  const posting = await Posting.findById(postingId);
 
   if (!posting) {
     console.log("404 Not Found!");
     return res.status(404).send("404 Not Found!");
-    // .render("404");
   }
 
   return res.send(posting);
-  // .render("Watch", posting);
 };
 
 export const getEdit = async (req, res) => {
@@ -63,10 +60,8 @@ export const getEdit = async (req, res) => {
   if (!posting) {
     console.log("404 Not Found!");
     return res.status(404).send("404 Not Found!");
-    // .render("404");
   }
   return res.send(posting);
-  // .render("Edit", posting);
 };
 
 export const postEdit = async (req, res) => {
@@ -77,7 +72,6 @@ export const postEdit = async (req, res) => {
   if (!posting) {
     console.log("404 Not Found!");
     return res.status(404).send("404 Not Found!");
-    // .render("404");
   }
 
   await Posting.findByIdAndUpdate(id, {

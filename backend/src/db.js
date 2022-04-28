@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
-mongoose.connect("mongodb://localhost:27017/reward-psychology");
+mongoose.connect(process.env.DB_URL);
 
 const db = mongoose.connection;
 
 const handleOpen = () => {
-  console.log("✅ Connecte to DB");
+  console.log("✅ Connected to DB");
 };
 
 const handleError = (error) => {
