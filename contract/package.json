@@ -1,0 +1,16 @@
+{
+    "name": "contract",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "lhj": "remixd -s /home/lim/Projects/beb-03-Reward-Psychology-RP-/contract --remix-ide https://remix.ethereum.org"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@remix-project/remixd": "^0.6.1"
+    },
+    "type": "module"
+}
