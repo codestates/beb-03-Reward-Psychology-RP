@@ -9,21 +9,22 @@ export const getJoin = (req, res) => {
 export const postJoin = async (req, res) => {
   const { email, userName, password, password2 } = req.body;
   const mnemonic = lightwallet.keystore.generateRandomSeed();
-  let address;
   const userNameOrEmailExists = await User.find({
     $or: [{ email }, { userName }],
   });
 
   // 로그인 과정에서 입력된 password 2개를 비교하여, 사용자가 의도한 password가 입력되도록 합니다.
   if (password !== password2) {
-    return res.status(400).send("Password Confirmation does not match");
+    return res
+      .status(400)
+      .send({ errorMessage: "Password Confirmation does not match" });
   }
 
   // users DB에 겹치는 userName이나 email이 있는지 확인합니다.
-  if (userNameOrEmailExists[0]) {
+  if (userNameOrEmailExists.length !== 0) {
     return res
       .status(400)
-      .send({ errorMessage: "Join Error: This user is already registered" });
+      .send({ errorMessage: "This user is already registered" });
   }
 
   // 유저에게 wallet address와 private key를 발급합니다.
@@ -36,46 +37,51 @@ export const postJoin = async (req, res) => {
       },
       function (err, ks) {
         if (err) {
-          console.log("❌ KeyStore Error:", err);
+          return res.send({ errorMessage: `❌ KeyStore Error: ${err}` });
         }
 
         ks.keyFromPassword(password, function (err, pwDerivedKey) {
           ks.generateNewAddress(pwDerivedKey, 1);
 
-          address = ks.getAddresses().toString();
+          let address = ks.getAddresses().toString();
+          let privateKey = ks.exportPrivateKey(address, pwDerivedKey);
 
-          console.log("⭐️⭐️⭐️ 지갑 주소입니다:", address);
+          // user를 users DB에 저장합니다.
+          User.create({
+            email,
+            userName,
+            password,
+            address,
+          });
+
+          console.log("⭐️⭐️⭐️ 지갑 주소입니다1:", address);
           console.log(
             "⭐️⭐️⭐️ private key입니다.",
             ks.exportPrivateKey(address, pwDerivedKey)
           );
-          //   let keystore = ks.serialize();
+
+          return res.send({
+            successMessage: "Join Success, Go to Login Page",
+            address,
+            privateKey,
+            mnemonic,
+          });
         });
       }
     );
-
-    // user를 users DB에 저장합니다.
-    await User.create({
-      email,
-      userName,
-      password,
-      address,
-    });
-
-    return res.send("to Login Page, Success Join");
   } catch (error) {
     return res.status(400).send({ errorMessage: "Join Not Available" });
   }
 };
 
 export const getLogin = async (req, res) => {
-  return res.send("Login Page");
+  return res.send("Get Login Page");
 };
 
 export const postLogin = async (req, res) => {
   const { userName, password } = req.body;
   const user = await User.findOne({ userName });
-  const passwordComparision = bcrypt.compare(password, user.password);
+  const passwordComparision = await bcrypt.compare(password, user.password);
 
   if (!user) {
     return res
@@ -93,5 +99,14 @@ export const postLogin = async (req, res) => {
   req.session.user = user;
 
   console.log("🙆‍♂️ LOG USER IN!");
-  return res.redirect("/");
+  return res.send("🙆‍♂️ LOG USER IN!");
 };
+
+export const logout = (req, res) => {
+  req.session.destroy();
+  return res.send("Success Logout");
+};
+
+// const edit = (req, res) => {
+//   return res.send("Edit");
+// };
