@@ -10,7 +10,7 @@ const postingSchema = new mongoose.Schema({
     views: { type: Number, default: 0 },
     comments: { type: Number, default: 0 },
   },
-  owner: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
+  owner: { type: String, required: true, ref: "User" },
 });
 
 postingSchema.static("formatHashtags", function (hashtags) {
