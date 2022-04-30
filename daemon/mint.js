@@ -37,7 +37,8 @@ export const mint = async function (address, amount) {
     process.env.PRIVATE_KEY
   );
 
-  console.log("☕️☕️☕️ Pending ...");
+  console.log("☕️☕️☕️ Transaction Pending ...");
+
   const receipt = await web3.eth.sendSignedTransaction(signed.rawTransaction);
 
   if (receipt) {
@@ -46,4 +47,4 @@ export const mint = async function (address, amount) {
   return console.log(receipt); // print receipt
 };
 
-mint("0xC318BE0b898aED3BBfc7Da5EdcbBB589A32Ca7D3", "1");
+// mint("0xC318BE0b898aED3BBfc7Da5EdcbBB589A32Ca7D3", "1");

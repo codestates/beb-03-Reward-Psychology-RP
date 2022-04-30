@@ -19,20 +19,39 @@ const handleListening = () => {
   console.log(`✅ Server listening on port http://localhost:${PORT}`);
 };
 
-app.use(logger);
-app.use(cors(corsOptions));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-//브라우저에게 cookie를 전송합니다.
+//브라우저에게 session ID(cookie 안에 있는)를 전달합니다.
 app.use(
   session({
     secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
+    cookie: {
+      domain: "localhost",
+      path: "/",
+      maxAge: 24 * 6 * 60 * 1000,
+      sameSite: "none",
+      httpOnly: true,
+      secure: true,
+    },
   })
 );
+
+app.use((req, res, next) => {
+  if (req.session.loggedIn) {
+    res.locals.loggedIn = Boolean(req.session.loggedIn);
+    res.locals.loggedInUser = req.session.user;
+  }
+
+  console.log(res.locals);
+
+  next();
+});
+
+app.use(logger);
+app.use(cors(corsOptions));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use("/", rootRouter);
 app.use("/users", userRouter);

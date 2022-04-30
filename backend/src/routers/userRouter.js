@@ -1,6 +1,6 @@
 import express from "express";
-import { getUserPostings } from "../controllers/postingController";
-import { logout } from "../controllers/userController";
+import { getUserPostings } from "../controllers/postingController.js";
+import { logout } from "../controllers/userController.js";
 
 const userRouter = express.Router();
 

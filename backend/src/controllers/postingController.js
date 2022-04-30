@@ -21,7 +21,7 @@ export const search = async (req, res) => {
       title: { $regex: new RegExp(keyword, "i") },
     }).sort({ createdAt: "desc" });
   }
-  return res.send(postings);
+  return res.send({ postings });
 };
 
 export const getUpload = (req, res) => {
@@ -29,6 +29,7 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = async (req, res) => {
+  // session 🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠
   const { title, contents, hashtags } = req.body;
   const { user } = req.session;
 
@@ -87,7 +88,7 @@ export const postEdit = async (req, res) => {
 };
 
 export const deletePosting = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
 
   await Posting.findByIdAndDelete(id);
 
@@ -95,6 +96,7 @@ export const deletePosting = async (req, res) => {
 };
 
 export const getUserPostings = async (req, res) => {
+  // session 🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠
   const { user } = req.session;
   let postings = [];
   if (user) {

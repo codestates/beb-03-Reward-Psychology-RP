@@ -99,7 +99,7 @@ export const postLogin = async (req, res) => {
   req.session.user = user;
 
   console.log("🙆‍♂️ LOG USER IN!");
-  return res.send("🙆‍♂️ LOG USER IN!");
+  return res.send({});
 };
 
 export const logout = (req, res) => {
