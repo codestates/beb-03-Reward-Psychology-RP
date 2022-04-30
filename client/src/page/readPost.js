@@ -1,21 +1,32 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { Container, Grid, Paper, Link } from '@mui/material';
+import {
+    Container,
+    Grid,
+    Paper,
+    Link,
+    Stack,
+    Typography,
+    Box,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import pencilIcon from '../img/pencil.png';
 import { useParams } from 'react-router-dom';
 
-function ReadPost({ userName, setEditSeq }) {
+function ReadPost({
+    userName,
+    setEditSeq,
+    setPostingId,
+    setTempTitle,
+    setTempContent,
+    editSeq,
+}) {
     const [data, setData] = useState();
     const [replyText, setReplyText] = useState('');
     const [isClicked, setIsclicked] = useState(false);
     const idParam = useParams().id;
-
-    console.log(data);
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -31,7 +42,7 @@ function ReadPost({ userName, setEditSeq }) {
         axios.get(uri).then((res) => {
             setData(res.data);
         });
-    }, []);
+    }, [editSeq]);
 
     const handleClick = (ev) => {
         if (isClicked === false) {
@@ -47,10 +58,14 @@ function ReadPost({ userName, setEditSeq }) {
 
     return (
         <Container sx={{ pt: 11 }}>
-            <Box>
+            <Container>
                 {data ? (
-                    <div>
-                        <Box
+                    <Container>
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            container
                             sx={{
                                 p: 3,
                                 // bgcolor: 'yellow',
@@ -59,20 +74,24 @@ function ReadPost({ userName, setEditSeq }) {
                             }}
                         >
                             {data.title}
-                        </Box>
-                        {data.owner === userName ? (
-                            <Link
-                                component={RouterLink}
-                                to="/newpost"
-                                sx={{ mt: 2, textAlign: 'right' }}
-                                onClick={() => {
-                                    setEditSeq(true);
-                                }}
-                            >
-                                Edit
-                            </Link>
-                        ) : null}
-                        <Box
+                            {data.owner === userName ? (
+                                <Link
+                                    component={RouterLink}
+                                    variant="h6"
+                                    to="/newpost"
+                                    sx={{ mt: 2, textAlign: 'right' }}
+                                    onClick={() => {
+                                        setEditSeq(true);
+                                        setPostingId(idParam);
+                                        setTempTitle(data.title);
+                                        setTempContent(data.contents);
+                                    }}
+                                >
+                                    Edit
+                                </Link>
+                            ) : null}
+                        </Stack>
+                        <Container
                             sx={{
                                 p: 1,
                                 // bgcolor: 'blue',
@@ -82,33 +101,32 @@ function ReadPost({ userName, setEditSeq }) {
                             }}
                         >
                             Author: {data.owner}
-                        </Box>
-                        <Box
+                        </Container>
+                        <Grid
                             sx={{
                                 p: 3,
-                                // bgcolor: 'green',
                                 textAlign: 'left',
                             }}
                         >
                             {data.contents}
-                        </Box>
+                        </Grid>
                         <Grid container spacing={2}>
                             {data.hashtags.length !== 0 &&
-                                data.hashtags[0].split(',').map((tag) => {
+                                data.hashtags[0].split(',').map((tag, idx) => {
                                     return (
-                                        <Grid item xs={3}>
+                                        <Grid item xs={3} key={idx}>
                                             <Item># {tag}</Item>
                                         </Grid>
                                     );
                                 })}
                         </Grid>{' '}
-                    </div>
+                    </Container>
                 ) : null}
                 <Link component="button" sx={{ mt: 2 }} onClick={handleClick}>
                     Reply
                 </Link>
                 {isClicked ? (
-                    <Box>
+                    <Container>
                         <TextField
                             id="outlined-multiline-static"
                             label="Reply"
@@ -120,22 +138,22 @@ function ReadPost({ userName, setEditSeq }) {
                             sx={{ mt: 2 }}
                         />
                         {replyText ? (
-                            <Box sx={{ m: 5 }}>
+                            <Container sx={{ m: 5 }}>
                                 <Button variant="outlined" onClick={() => {}}>
                                     Reply
                                 </Button>{' '}
                                 <Button variant="outlined">Cancel</Button>
-                            </Box>
+                            </Container>
                         ) : (
-                            <Box sx={{ m: 5 }}>
+                            <Container sx={{ m: 5 }}>
                                 <Button variant="outlined" disabled>
                                     Reply
                                 </Button>
-                            </Box>
+                            </Container>
                         )}
-                    </Box>
+                    </Container>
                 ) : null}
-            </Box>
+            </Container>
         </Container>
     );
 }

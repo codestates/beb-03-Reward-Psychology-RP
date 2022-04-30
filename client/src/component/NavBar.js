@@ -76,11 +76,11 @@ const SearchInput = styled.input`
 
     /* background-color: #dddddd; */
     height: 90%;
-    left: 6%;
+    left: 1%;
 `;
 const SearchButton = styled.img`
     position: absolute;
-    right: 5%;
+    right: 7%;
     top: 14%;
     height: 1.3rem;
     width: 1.3rem;

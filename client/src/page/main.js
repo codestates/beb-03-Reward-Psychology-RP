@@ -36,10 +36,11 @@ const PostContainer = styled(Box)(({ theme }) => ({
     left: '26%',
 }));
 
-function Main() {
+function Main({ setEditSeq }) {
     const [data, setData] = useState();
 
     useEffect(() => {
+        setEditSeq(false);
         axios.get('http://localhost:4000/').then((res) => {
             setData(res.data.postings);
         });

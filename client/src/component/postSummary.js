@@ -51,7 +51,6 @@ function PostSummary({
     likesCount,
     commentsCount,
     postURL,
-    setEditSeq,
 }) {
     return (
         <Card
@@ -66,7 +65,6 @@ function PostSummary({
                 flexDirection: 'row',
                 alignContent: 'left',
             }}
-            // onClick={pageSwift}
         >
             <Stack direction="row">
                 <Typography
@@ -95,17 +93,16 @@ function PostSummary({
                 {title}
             </Typography>
 
-            <Typography variant="body2" align="left">
-                {contents}
+            <Typography variant="body2" align="left" sx={{ overflow: 'auto' }}>
+                {contents.length > 65
+                    ? contents.slice(0, 65) + '...'
+                    : contents}
             </Typography>
             <Stack direction="row">
                 <Icon src={upvoteIcon} />
                 <Typography sx={{ fontSize: 16 }} color="text.secondary">
                     {likesCount} votes
                 </Typography>
-                {window.location.pathName === '/mypage'
-                    ? setEditSeq(true)
-                    : null}
                 <Icon src={commentIcon} />
                 <Typography sx={{ fontSize: 16 }} color="text.secondary">
                     {commentsCount} comments

@@ -38,7 +38,6 @@ const ImgComponent = ({ i, pvKeyInput, setPvKeyInput, checkValidity }) => {
             .productInfo(`${i}`)
             .call()
             .then((res) => {
-                // console.log(res);
                 setTemp(res);
             });
         // set NFT image
@@ -51,7 +50,7 @@ const ImgComponent = ({ i, pvKeyInput, setPvKeyInput, checkValidity }) => {
         }
     }, []);
 
-    // Logic for buy NFT using RP token (same as mint.js)
+    // Logic for buy NFT using RP token (almost as mint.js)
     const myBuyNFT = async (privateKey, productNum) => {
         const ethNetwork =
             'wss://ropsten.infura.io/ws/v3/6df37bdfbb1e4dcd8db19ac839911a1b';
@@ -125,11 +124,7 @@ const ImgComponent = ({ i, pvKeyInput, setPvKeyInput, checkValidity }) => {
                                 <Button
                                     variant="outlined"
                                     onClick={() => {
-                                        if (checkValidity(pvKeyInput)) {
-                                            myBuyNFT(pvKeyInput, i);
-                                        } else {
-                                            setPvKeyInput('');
-                                        }
+                                        myBuyNFT(pvKeyInput, i);
                                     }}
                                 >
                                     transact

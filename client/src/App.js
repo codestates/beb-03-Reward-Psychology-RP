@@ -9,18 +9,24 @@ import BuyNFT from './page/buyNFT';
 import { useState } from 'react';
 
 function App() {
+    const [tempTitle, setTempTitle] = useState('');
+    const [tempContent, setTempContent] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userName, setUserName] = useState('default');
     const [addr, setAddr] = useState();
     const [balance, setBalance] = useState(0);
     const [editSeq, setEditSeq] = useState(false);
+    const [postingId, setPostingId] = useState();
 
     return (
         <div className="App">
             <NavBar isLoggedIn={isLoggedIn} />
             <div>
                 <Routes>
-                    <Route path="/" element={<Main />} />
+                    <Route
+                        path="/"
+                        element={<Main setEditSeq={setEditSeq} />}
+                    />
                     <Route
                         path="/mypage"
                         element={
@@ -41,7 +47,14 @@ function App() {
                     <Route
                         path="/newpost"
                         element={
-                            <NewPost editSeq={editSeq} userName={userName} />
+                            <NewPost
+                                editSeq={editSeq}
+                                setEditSeq={setEditSeq}
+                                userName={userName}
+                                postingId={postingId}
+                                tempTitle={tempTitle}
+                                tempContent={tempContent}
+                            />
                         }
                     />
                     <Route
@@ -50,6 +63,9 @@ function App() {
                             <ReadPost
                                 userName={userName}
                                 setEditSeq={setEditSeq}
+                                setPostingId={setPostingId}
+                                setTempTitle={setTempTitle}
+                                setTempContent={setTempContent}
                             />
                         }
                     />

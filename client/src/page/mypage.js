@@ -35,6 +35,7 @@ function Mypage({
     setAddr,
     balance,
     setBalance,
+    setEditSeq,
 }) {
     // sign - flag for sign in or not
     const [sign, setSign] = useState(false);
@@ -53,6 +54,7 @@ function Mypage({
 
     // execute userEffect when login flag("isLoggedIn") is altered
     useEffect(() => {
+        setEditSeq(false);
         if (addr) {
             tokenContract.methods
                 .balanceOf(addr)
@@ -64,7 +66,7 @@ function Mypage({
         axios
             .get('http://localhost:4000/')
             .then((res) => {
-                console.log(res.data.postings);
+                // console.log(res.data.postings);
                 const tempData = [...res.data.postings];
                 if (isLoggedIn) {
                     const userPosts = tempData.filter((single) => {
@@ -141,10 +143,17 @@ function Mypage({
         alert(msg);
     };
 
-    // copy to clipboard user wallet address
-    const copyWalletAccount = async () => {
-        await navigator.clipboard.writeText(addr);
-        alert('Wallet address is coppied!');
+    // copy to clipboard user address
+    const copyWalletAccount = async (flag) => {
+        if (flag === 'addr') {
+            await navigator.clipboard.writeText(addr);
+        } else if (flag === 'pvKey') {
+            await navigator.clipboard.writeText(pvKey);
+        } else if (flag === 'mnemonic') {
+            await navigator.clipboard.writeText(mnemonic);
+        }
+
+        alert('Address is coppied!');
     };
 
     // send request to server (login, join in)
@@ -175,20 +184,16 @@ function Mypage({
 
         if (res) {
             if (sign) {
-                // resAlert(
-                //     1,
-                //     `Your account is created! Handle care with your private key \n${res.data.pvKey}`
-                // );
-                // console.log(res.data);
                 console.log(res.data);
-                setPvKey('dummy pv Key');
-                setMnemonic('dummy mnemonic');
+                setPvKey(res.data.privateKey);
+                setMnemonic(res.data.mnemonic);
                 setModal(true);
                 setSign(false);
             } else {
                 // store.dispatch({ type: 'LOGIN', isLoggedIn: true });
+                console.log(res);
                 setIsLoggedIn(true);
-                const tempAdrr = res.data.user.address;
+                const tempAdrr = res.data.address;
                 setAddr(tempAdrr);
             }
         }
@@ -211,7 +216,11 @@ function Mypage({
                         </Typography>
                         <Box sx={{ mt: 2 }}>
                             RP Wallet Address: {addr}
-                            <IconButton onClick={copyWalletAccount}>
+                            <IconButton
+                                onClick={() => {
+                                    copyWalletAccount('addr');
+                                }}
+                            >
                                 <ContentCopyIcon />
                             </IconButton>
                         </Box>
@@ -264,15 +273,17 @@ function Mypage({
                             >
                                 Sign in
                             </Box>
-                            <TextField
-                                id="outlined-basic_name"
-                                label="user name"
-                                variant="outlined"
-                                placeholder="Input your user name"
-                                style={{ width: 500 }}
-                                onChange={handleChange}
-                                sx={{ mt: 11 }}
-                            />
+                            <Box component="div">
+                                <TextField
+                                    id="outlined-basic_name"
+                                    label="user name"
+                                    variant="outlined"
+                                    placeholder="Input your user name"
+                                    style={{ width: 500 }}
+                                    onChange={handleChange}
+                                    sx={{ mt: 11 }}
+                                />
+                            </Box>
                             <TextField
                                 id="outlined-basic_email"
                                 label="email"
@@ -346,15 +357,17 @@ function Mypage({
                             >
                                 log in
                             </Box>
-                            <TextField
-                                id="outlined-basic_name"
-                                label="user name"
-                                variant="outlined"
-                                placeholder="Input your user name"
-                                style={{ width: 500 }}
-                                onChange={handleChange}
-                                sx={{ mt: 11 }}
-                            />
+                            <Box component="div">
+                                <TextField
+                                    id="outlined-basic_name"
+                                    label="user name"
+                                    variant="outlined"
+                                    placeholder="Input your user name"
+                                    style={{ width: 500 }}
+                                    onChange={handleChange}
+                                    sx={{ mt: 11 }}
+                                />
+                            </Box>
                             <TextField
                                 id="outlined-basic_pass"
                                 type="password"
@@ -411,7 +424,29 @@ function Mypage({
                                             id="modal-modal-description"
                                             sx={{ mt: 2 }}
                                         >
-                                            {`private key = ${pvKey} \n mnemonic key = ${mnemonic}`}
+                                            {`private key = ${pvKey}`}
+                                            <IconButton
+                                                onClick={() => {
+                                                    copyWalletAccount('pvKey');
+                                                }}
+                                            >
+                                                <ContentCopyIcon />
+                                            </IconButton>
+                                        </Typography>
+                                        <Typography
+                                            id="modal-modal-description"
+                                            sx={{ mt: 2 }}
+                                        >
+                                            {`mnemonic key = ${mnemonic}`}
+                                            <IconButton
+                                                onClick={() => {
+                                                    copyWalletAccount(
+                                                        'mnemonic'
+                                                    );
+                                                }}
+                                            >
+                                                <ContentCopyIcon />
+                                            </IconButton>
                                         </Typography>
                                     </Box>
                                 </Modal>

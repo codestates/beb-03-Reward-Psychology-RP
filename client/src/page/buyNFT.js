@@ -21,19 +21,19 @@ function BuyNFT({ userName, addr, balance, setIsLoggedIn }) {
     };
 
     // check validity for private key
-    const checkValidity = (s) => {
-        if (!s) {
-            alert('Empty Adress!');
-            return false;
-        } else {
-            const maniStr = s.trim();
-            if (maniStr.length !== 42 || maniStr.slice(0, 2) !== '0x') {
-                alert('Invalid Address!');
-                return false;
-            }
-        }
-        return true;
-    };
+    // const checkValidity = (s) => {
+    //     if (!s) {
+    //         alert('Empty Adress!');
+    //         return false;
+    //     } else {
+    //         const maniStr = s.trim();
+    //         if (maniStr.length !== 42 || maniStr.slice(0, 2) !== '0x') {
+    //             alert('Invalid Address!');
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // };
 
     return (
         <div>
@@ -70,7 +70,7 @@ function BuyNFT({ userName, addr, balance, setIsLoggedIn }) {
                             i={JSON.stringify(elem)}
                             pvKeyInput={pvKeyInput}
                             setPvKeyInput={setPvKeyInput}
-                            checkValidity={checkValidity}
+                            // checkValidity={checkValidity}
                             key={idx}
                         />
                     );
@@ -83,13 +83,7 @@ function BuyNFT({ userName, addr, balance, setIsLoggedIn }) {
                     variant="outlined"
                     placeholder="Write Your Private Key!"
                     onChange={(ev) => {
-                        if (checkValidity(ev.target.value)) {
-                            console.log('ff');
-                            setPvKeyInput(ev.target.value);
-                        } else {
-                            console.log('ggg');
-                            setPvKeyInput('');
-                        }
+                        setPvKeyInput(ev.target.value);
                     }}
                     sx={{ mt: 3 }}
                     style={{ width: 400 }}
