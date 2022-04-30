@@ -8,19 +8,16 @@ import Button from '@mui/material/Button';
 
 const axios = require('axios');
 
-function NewPost() {
-    const [editSeq, setEditSeq] = useState(true);
+function NewPost({ userName, editSeq }) {
     const [value, setValue] = useState();
     const [singleTag, setSingleTag] = useState('#');
     const [hashtagArr, setHashtagArr] = useState([]);
     const [title, setTitle] = useState('');
     const [mainBody, setMainBody] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
-    const re = /[^A-Za-z0-9#,\s]/;
-
+    const tagRe = /[^A-Za-z0-9#,\s]/;
     useEffect(() => {
         if (editSeq) {
-            setEditSeq(false);
             setMainBody('wewefweffawergfaergetheh');
             setTitle('gfaergetheh');
             setHashtagArr([
@@ -31,6 +28,7 @@ function NewPost() {
             ]);
         }
     }, []);
+    console.log(editSeq);
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -59,7 +57,7 @@ function NewPost() {
             setMainBody(event.target.value);
         } else {
             const leng = event.target.value.length;
-            if (!event.target.value.match(re)) {
+            if (!event.target.value.match(tagRe)) {
                 if (
                     event.target.value[leng - 1] === ' ' ||
                     event.target.value[leng - 1] === ',' ||
@@ -92,6 +90,7 @@ function NewPost() {
                 title: title,
                 contents: mainBody,
                 hashtags: hashtagArr.join(),
+                userName: userName,
             };
             const res = await axios.post(
                 'http://localhost:4000/posts/upload',
@@ -111,7 +110,7 @@ function NewPost() {
                     label="Title"
                     variant="outlined"
                     placeholder="Write Title!"
-                    fullWidth="true"
+                    fullWidth={true}
                     defaultValue={title}
                     onChange={handleChange}
                     sx={{ mt: 11 }}
@@ -123,7 +122,7 @@ function NewPost() {
                     rows={20}
                     defaultValue={mainBody}
                     placeholder="Write Your Story!"
-                    fullWidth="true"
+                    fullWidth={true}
                     onChange={handleChange}
                     sx={{ mt: 2 }}
                 />
@@ -132,7 +131,7 @@ function NewPost() {
                     label="HashTag"
                     variant="outlined"
                     placeholder="#"
-                    fullWidth="true"
+                    fullWidth={true}
                     default={hashtagArr}
                     sx={{ mt: 2 }}
                     value={singleTag}

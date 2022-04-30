@@ -1,3 +1,4 @@
+import { Link as RouterLink } from 'react-router-dom';
 import { Container, Grid, Paper, Link } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -5,13 +6,16 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import pencilIcon from '../img/pencil.png';
 import { useParams } from 'react-router-dom';
 
-function ReadPost() {
+function ReadPost({ userName, setEditSeq }) {
     const [data, setData] = useState();
     const [replyText, setReplyText] = useState('');
     const [isClicked, setIsclicked] = useState(false);
     const idParam = useParams().id;
+
+    console.log(data);
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -42,10 +46,8 @@ function ReadPost() {
     };
 
     return (
-        <Container>
+        <Container sx={{ pt: 11 }}>
             <Box>
-                {/* dummybox */}
-                <Box sx={{ pt: 11 }} />
                 {data ? (
                     <div>
                         <Box
@@ -58,6 +60,18 @@ function ReadPost() {
                         >
                             {data.title}
                         </Box>
+                        {data.owner === userName ? (
+                            <Link
+                                component={RouterLink}
+                                to="/newpost"
+                                sx={{ mt: 2, textAlign: 'right' }}
+                                onClick={() => {
+                                    setEditSeq(true);
+                                }}
+                            >
+                                Edit
+                            </Link>
+                        ) : null}
                         <Box
                             sx={{
                                 p: 1,
@@ -67,7 +81,7 @@ function ReadPost() {
                                 textAlign: 'right',
                             }}
                         >
-                            {data.userId}
+                            Author: {data.owner}
                         </Box>
                         <Box
                             sx={{
@@ -79,17 +93,17 @@ function ReadPost() {
                             {data.contents}
                         </Box>
                         <Grid container spacing={2}>
-                            {data.hashtags[0].split(',').map((tag) => {
-                                return (
-                                    <Grid item xs={3}>
-                                        <Item># {tag}</Item>
-                                    </Grid>
-                                );
-                            })}
+                            {data.hashtags.length !== 0 &&
+                                data.hashtags[0].split(',').map((tag) => {
+                                    return (
+                                        <Grid item xs={3}>
+                                            <Item># {tag}</Item>
+                                        </Grid>
+                                    );
+                                })}
                         </Grid>{' '}
                     </div>
                 ) : null}
-
                 <Link component="button" sx={{ mt: 2 }} onClick={handleClick}>
                     Reply
                 </Link>

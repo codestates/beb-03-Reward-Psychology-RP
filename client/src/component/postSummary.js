@@ -18,6 +18,7 @@ import {
 
 import commentIcon from '../img/comment.png';
 import upvoteIcon from '../img/upvote.png';
+import { Box } from '@mui/system';
 
 // prop forwarding 을 이용하자
 
@@ -50,6 +51,7 @@ function PostSummary({
     likesCount,
     commentsCount,
     postURL,
+    setEditSeq,
 }) {
     return (
         <Card
@@ -101,6 +103,9 @@ function PostSummary({
                 <Typography sx={{ fontSize: 16 }} color="text.secondary">
                     {likesCount} votes
                 </Typography>
+                {window.location.pathName === '/mypage'
+                    ? setEditSeq(true)
+                    : null}
                 <Icon src={commentIcon} />
                 <Typography sx={{ fontSize: 16 }} color="text.secondary">
                     {commentsCount} comments

@@ -41,7 +41,7 @@ function Main() {
 
     useEffect(() => {
         axios.get('http://localhost:4000/').then((res) => {
-            setData(res.data);
+            setData(res.data.postings);
         });
     }, []);
 
@@ -49,7 +49,7 @@ function Main() {
         <PostContainer sx={{ pt: 11 }}>
             <Stack spacing={2}>
                 {data
-                    ? data.map((singlePost) => {
+                    ? data.map((singlePost, idx) => {
                           return (
                               <PostSummary
                                   writer={singlePost.userId}
@@ -59,6 +59,7 @@ function Main() {
                                   likesCount={singlePost.meta.voting}
                                   commentsCount={singlePost.meta.comments}
                                   postURL={`/readpost/${singlePost._id}`}
+                                  key={idx}
                                   sx={{ mt: 2 }}
                               />
                           );

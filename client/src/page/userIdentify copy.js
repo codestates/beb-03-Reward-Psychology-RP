@@ -1,3 +1,10 @@
+import { Container, Link, Button } from '@mui/material';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import React, { useState } from 'react';
+import axios from 'axios';
+// import { useSelector } from 'react-redux';
+
 function UserIdentify({ setIsLoggedIn, setUserData }) {
     // const isLoggedIn = useSelector((state) => {
     //     state.isLoggedIn;
@@ -9,6 +16,26 @@ function UserIdentify({ setIsLoggedIn, setUserData }) {
     const [mail, setMail] = useState('');
     const [pass, setPass] = useState('');
     const [passConfirm, setPassConfirm] = useState('');
+
+    const signHandler = () => {
+        if (sign === false) {
+            setSign(true);
+        } else if (sign === true) {
+            setSign(false);
+        }
+    };
+
+    const handleChange = (ev) => {
+        if (ev.target.id === 'outlined-basic_name') {
+            setUserName(ev.target.value);
+        } else if (ev.target.id === 'outlined-basic_email') {
+            setMail(ev.target.value);
+        } else if (ev.target.id === 'outlined-basic_pass') {
+            setPass(ev.target.value);
+        } else if (ev.target.id === 'outlined-basic_passConf') {
+            setPassConfirm(ev.target.value);
+        }
+    };
 
     async function sendReq() {
         let uri;
@@ -49,6 +76,13 @@ function UserIdentify({ setIsLoggedIn, setUserData }) {
             }
         }
     }
+
+    const resAlert = (flag, msg) => {
+        if (flag !== 1) {
+            setErrFlag('');
+        }
+        alert(msg);
+    };
 
     return (
         <Container>
