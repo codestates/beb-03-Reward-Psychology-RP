@@ -1,14 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { IconButton } from '@mui/material';
+
 import searchIcon from '../img/search.png';
 import postIcon from '../img/pencil.png';
 import userIcon from '../img/user.png';
 import logoIcon from '../img/logo.png';
 import StoreIcon from '../img/store.png';
-// import store from '../store/store';
 
 const TopFix = styled.div`
     display: flex;
@@ -76,11 +75,11 @@ const SearchInput = styled.input`
 
     /* background-color: #dddddd; */
     height: 90%;
-    left: 6%;
+    left: 1%;
 `;
 const SearchButton = styled.img`
     position: absolute;
-    right: 5%;
+    right: 7%;
     top: 14%;
     height: 1.3rem;
     width: 1.3rem;

@@ -1,34 +1,65 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { Container, Grid, Paper, Typography, Popover } from '@mui/material';
+import React, { useState, useEffect, useContext } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import axios from 'axios';
+
+import {
+    Container,
+    Grid,
+    Paper,
+    Typography,
+    Popover,
+    Modal,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-const axios = require('axios');
+import GlobalContext from '../context';
 
-function NewPost({ userName, editSeq }) {
-    const [value, setValue] = useState();
+function NewPost() {
+    const {
+        addr,
+        userName,
+        postingId,
+        title,
+        setTitle,
+        content,
+        setContent,
+        editSeq,
+        setEditSeq,
+    } = useContext(GlobalContext);
+
+    const [buttonText, setButtonText] = useState('post');
     const [singleTag, setSingleTag] = useState('#');
     const [hashtagArr, setHashtagArr] = useState([]);
-    const [title, setTitle] = useState('');
-    const [mainBody, setMainBody] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
+    const [modal, setModal] = useState(false);
     const tagRe = /[^A-Za-z0-9#,\s]/;
+
     useEffect(() => {
         if (editSeq) {
-            setMainBody('wewefweffawergfaergetheh');
-            setTitle('gfaergetheh');
-            setHashtagArr([
-                'asdfas',
-                'asdfasdweff',
-                'asdfasdfasdf',
-                'asccdfasdf',
-            ]);
+            const uri = `http://localhost:4000/posts/${postingId}/edit`;
+
+            axios.get(uri).then((res) => {
+                const hashtags = res.data.posting.hashtags[0].split(',');
+                setHashtagArr(hashtags);
+            });
+            setButtonText('edit');
         }
-    }, []);
-    console.log(editSeq);
+    }, [editSeq]);
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -42,7 +73,10 @@ function NewPost({ userName, editSeq }) {
 
     const sliceHashtag = (s) => {
         if (s) {
-            setHashtagArr((currArr) => [...currArr].concat(s));
+            const tempCurrArr = [...hashtagArr];
+            if (tempCurrArr.indexOf(s) === -1) {
+                setHashtagArr((currArr) => [...currArr].concat(s));
+            }
             setSingleTag('#');
         } else {
             setAnchorEl(true);
@@ -50,11 +84,10 @@ function NewPost({ userName, editSeq }) {
     };
 
     const handleChange = (event) => {
-        console.log(event.target);
         if (event.target.id === 'outlined-basic_title') {
             setTitle(event.target.value);
         } else if (event.target.id === 'outlined-multiline-static') {
-            setMainBody(event.target.value);
+            setContent(event.target.value);
         } else {
             const leng = event.target.value.length;
             if (!event.target.value.match(tagRe)) {
@@ -75,53 +108,79 @@ function NewPost({ userName, editSeq }) {
 
     const eliminateFromArr = (ev) => {
         const selectedTag = ev.target.childNodes[1].data;
-        console.log(selectedTag);
         const tempArr = hashtagArr.filter((tag) => {
             return tag !== selectedTag;
         });
         setHashtagArr(tempArr);
     };
 
-    async function sendReq() {
-        if (title.length < 2) {
-            alert('Write title at least 2 character!');
-        } else {
-            const payload = {
+    // check validity for private key
+    // const checkValidity = (s) => {
+    //     if (!s) {
+    //         alert('Empty Adress!');
+    //         return false;
+    //     } else {
+    //         const maniStr = s.trim();
+    //         if (maniStr.length !== 42 || maniStr.slice(0, 2) !== '0x') {
+    //             alert('Invalid Address!');
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // };
+
+    const sendReq = async () => {
+        let payload;
+        let uri;
+        if (editSeq) {
+            payload = {
                 title: title,
-                contents: mainBody,
+                contents: content,
+                hashtags: hashtagArr.join(),
+            };
+            uri = `http://localhost:4000/posts/${postingId}/edit`;
+        } else {
+            payload = {
+                title: title,
+                contents: content,
                 hashtags: hashtagArr.join(),
                 userName: userName,
+                address: addr,
             };
-            const res = await axios.post(
-                'http://localhost:4000/posts/upload',
-                payload
-            );
-
-            const data = res.data;
-            console.log(data);
+            uri = 'http://localhost:4000/posts/upload';
         }
-    }
+
+        const res = await axios.post(uri, payload);
+
+        const data = res.data;
+    };
 
     return (
         <Container maxWidth="md">
-            <Box component="form" noValidate autoComplete="off">
+            {editSeq ? (
+                <Typography variant="h5" color="blue" sx={{ pt: 11, pb: 2 }}>
+                    Edit current post
+                </Typography>
+            ) : (
+                <Typography variant="h5" color="blue" sx={{ pt: 11, pb: 2 }}>
+                    Write new post
+                </Typography>
+            )}
+            <Box component="form" autoComplete="off">
                 <TextField
                     id="outlined-basic_title"
                     label="Title"
                     variant="outlined"
-                    placeholder="Write Title!"
                     fullWidth={true}
                     defaultValue={title}
                     onChange={handleChange}
-                    sx={{ mt: 11 }}
                 />
                 <TextField
                     id="outlined-multiline-static"
-                    label="Story"
                     multiline
+                    label="Contents"
                     rows={20}
-                    defaultValue={mainBody}
-                    placeholder="Write Your Story!"
+                    defaultValue={content}
                     fullWidth={true}
                     onChange={handleChange}
                     sx={{ mt: 2 }}
@@ -143,8 +202,8 @@ function NewPost({ userName, editSeq }) {
                     }}
                 />
                 <Popover
-                    open={anchorEl}
-                    anchorEl={<TextField />}
+                    open={Boolean(anchorEl)}
+                    anchorEl={anchorEl}
                     onClose={handlePopoverClose}
                     anchorOrigin={{
                         vertical: 'bottom',
@@ -156,10 +215,10 @@ function NewPost({ userName, editSeq }) {
             </Box>
             <Box sx={{ mt: 2 }}>
                 {hashtagArr.length !== 0 ? (
-                    <Grid container spacing={2}>
-                        {hashtagArr.map((tag) => {
+                    <Grid container="true" spacing={2}>
+                        {hashtagArr.map((tag, idx) => {
                             return (
-                                <Grid item xs={3}>
+                                <Grid item xs={3} key={idx}>
                                     <Item
                                         onClick={(ev) => {
                                             eliminateFromArr(ev);
@@ -173,25 +232,158 @@ function NewPost({ userName, editSeq }) {
                     </Grid>
                 ) : null}
             </Box>
-            {hashtagArr.length !== 0 && title && mainBody ? (
-                <Box sx={{ m: 5 }}>
-                    <Button
-                        variant="outlined"
-                        onClick={() => {
-                            sendReq();
-                        }}
-                    >
-                        Post
-                    </Button>{' '}
-                    <Button variant="outlined">Cancel</Button>
+            {hashtagArr.length !== 0 && title && content ? (
+                <Box sx={{ m: 2 }}>
+                    {editSeq ? (
+                        <Grid sx={{ mt: 2 }}>
+                            <Button
+                                variant="outlined"
+                                onClick={() => {
+                                    if (title.length > 50) {
+                                        alert(
+                                            `Write title less than 50 character!(current: ${title.length})`
+                                        );
+                                    } else if (content.length < 20) {
+                                        alert(
+                                            `Write title at least 2 character!((current: ${content.length})`
+                                        );
+                                    } else {
+                                        sendReq();
+                                        setModal(true);
+                                    }
+                                }}
+                            >
+                                {buttonText}
+                            </Button>{' '}
+                            <Button
+                                component={RouterLink}
+                                to="/"
+                                variant="outlined"
+                                onClick={() => {
+                                    setEditSeq(false);
+                                }}
+                            >
+                                Cancel
+                            </Button>
+                        </Grid>
+                    ) : (
+                        <Box>
+                            <Typography color="red">
+                                RP token distribution can be delayed several
+                                minutes.
+                            </Typography>
+                            <Grid sx={{ mt: 2 }}>
+                                <Button
+                                    variant="outlined"
+                                    onClick={() => {
+                                        if (title.length > 50) {
+                                            alert(
+                                                `Write title less than 50 character! (current: ${title.length})`
+                                            );
+                                        } else if (content.length < 20) {
+                                            alert(
+                                                `Write contents at least 20 character! (current: ${content.length})`
+                                            );
+                                        } else {
+                                            setModal(true);
+                                        }
+                                    }}
+                                >
+                                    {buttonText}
+                                </Button>{' '}
+                                <Button
+                                    component={RouterLink}
+                                    to="/"
+                                    variant="outlined"
+                                    onClick={() => {
+                                        setEditSeq(false);
+                                    }}
+                                >
+                                    Cancel
+                                </Button>
+                            </Grid>
+                        </Box>
+                    )}
                 </Box>
             ) : (
-                <Box sx={{ m: 5 }}>
-                    <Button variant="outlined" disabled>
-                        POST
-                    </Button>
-                </Box>
+                <Button sx={{ m: 2 }} variant="outlined" disabled>
+                    {buttonText}
+                </Button>
             )}
+
+            {modal ? (
+                editSeq ? (
+                    <Modal
+                        open={modal}
+                        onClose={() => {
+                            setModal(false);
+                        }}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={style}>
+                            <Typography
+                                id="modal-modal-title"
+                                variant="h6"
+                                component="h2"
+                            >
+                                Edit success!
+                            </Typography>
+
+                            <Button
+                                component={RouterLink}
+                                to={`/readpost/${postingId}`}
+                                variant="outlined"
+                                onClick={() => {
+                                    setModal(false);
+                                }}
+                                sx={{ mt: 2 }}
+                            >
+                                close
+                            </Button>
+                        </Box>
+                    </Modal>
+                ) : (
+                    <Modal
+                        open={modal}
+                        onClose={() => {
+                            setModal(false);
+                        }}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={style}>
+                            <Typography
+                                id="modal-modal-title"
+                                variant="h6"
+                                component="h2"
+                            >
+                                You want add this post?
+                            </Typography>
+                            <Button
+                                component={RouterLink}
+                                to={`/mypage`}
+                                variant="outlined"
+                                onClick={() => {
+                                    sendReq();
+                                }}
+                                sx={{ mt: 2 }}
+                            >
+                                post{' '}
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                onClick={() => {
+                                    setModal(false);
+                                }}
+                                sx={{ mt: 2 }}
+                            >
+                                cancel
+                            </Button>
+                        </Box>
+                    </Modal>
+                )
+            ) : null}
         </Container>
     );
 }
