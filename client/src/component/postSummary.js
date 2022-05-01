@@ -1,24 +1,14 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
 import styled from 'styled-components';
-// import Link from "@mui/material/Link";
-// import Box from "@mui/material/Box";
+
 import Card from '@mui/material/Card';
-// import CardActions from "@mui/material/CardActions";
-// import CardContent from "@mui/material/CardContent";
-// import Button from "@mui/material/Button";
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 
-import {
-    Link as RouterLink,
-    LinkProps as RouterLinkProps,
-    MemoryRouter,
-} from 'react-router-dom';
-
 import commentIcon from '../img/comment.png';
 import upvoteIcon from '../img/upvote.png';
-import { Box } from '@mui/system';
 
 // prop forwarding 을 이용하자
 

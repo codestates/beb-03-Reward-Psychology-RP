@@ -1,14 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { IconButton } from '@mui/material';
+
 import searchIcon from '../img/search.png';
 import postIcon from '../img/pencil.png';
 import userIcon from '../img/user.png';
 import logoIcon from '../img/logo.png';
 import StoreIcon from '../img/store.png';
-// import store from '../store/store';
 
 const TopFix = styled.div`
     display: flex;

@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
+
 import TextField from '@mui/material/TextField';
-import PostSummary from '../component/postSummary';
-import Box from '@mui/material/Box';
+
 import { Container, Link, Button, Typography, Modal } from '@mui/material';
-import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LogoutIcon from '@mui/icons-material/Logout';
-import rpABI from '../rpABI';
+
+import PostSummary from '../component/postSummary';
+import GlobalContext from '../context';
+
 import web3 from 'web3';
-// import { useSelector } from 'react-redux';
-// import store from '../store/store';
-const axios = require('axios');
+import rpABI from '../rpABI';
 const Contract = require('web3-eth-contract');
-
 const rpAddress = '0xb2223FF50e9948839c0134321CDCaCB79f050E39';
-
 const rpcURL = 'https://ropsten.infura.io/v3/0e4ca7c98aff4188997b4dfed819da2d';
 
 Contract.setProvider(rpcURL);
@@ -26,28 +27,34 @@ const tokenContract = new Contract(
     rpAddress // 컨트랙트 주소
 );
 
-function Mypage({
-    isLoggedIn,
-    setIsLoggedIn,
-    userName,
-    setUserName,
-    addr,
-    setAddr,
-    balance,
-    setBalance,
-    setEditSeq,
-}) {
+function Mypage() {
+    const {
+        isLoggedIn,
+        setIsLoggedIn,
+        userName,
+        setUserName,
+        addr,
+        setAddr,
+        balance,
+        setBalance,
+        editSeq,
+        setEditSeq,
+        pvKey,
+        setPvKey,
+        setTitle,
+        setContent,
+    } = useContext(GlobalContext);
+
     // sign - flag for sign in or not
     const [sign, setSign] = useState(false);
     const [mail, setMail] = useState('');
     const [pass, setPass] = useState('');
     const [passConfirm, setPassConfirm] = useState('');
-    const [pvKey, setPvKey] = useState('');
     const [mnemonic, setMnemonic] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [modal, setModal] = useState(false);
     const [posts, setPosts] = useState([]);
-    // const state = store.getState();
+
     // validity check for written e-mail address using regular expression
     const mailRe =
         /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
@@ -55,6 +62,8 @@ function Mypage({
     // execute userEffect when login flag("isLoggedIn") is altered
     useEffect(() => {
         setEditSeq(false);
+        setTitle('');
+        setContent('');
         if (addr) {
             tokenContract.methods
                 .balanceOf(addr)
@@ -77,10 +86,9 @@ function Mypage({
             })
             .catch((err) => {
                 console.log(err);
-                console.log(err.response);
                 setErrMsg(err.response.data.errorMessage);
             });
-    }, [isLoggedIn]);
+    }, [isLoggedIn, editSeq, balance]);
 
     const PostContainer = styled(Box)(({ theme }) => ({
         position: 'aboslute',
@@ -111,16 +119,8 @@ function Mypage({
         }
     };
 
-    const modalHandler = () => {
-        setModal(false);
-    };
-
     const logoutHandler = () => {
         setIsLoggedIn(false);
-        // store.dispatch({ type: 'LOGOUT' });
-        // store.subscribe(() => {
-        //     console.log(store.getState());
-        // });
     };
 
     const handleChange = (ev) => {
@@ -177,21 +177,17 @@ function Mypage({
             };
         }
         const res = await axios.post(uri, payload).catch((err) => {
-            // setErrFlag(err.response.data.errorMessage);
             console.log(err.response);
             setErrMsg(err.response.data.errorMessage);
         });
 
         if (res) {
             if (sign) {
-                console.log(res.data);
                 setPvKey(res.data.privateKey);
                 setMnemonic(res.data.mnemonic);
                 setModal(true);
                 setSign(false);
             } else {
-                // store.dispatch({ type: 'LOGIN', isLoggedIn: true });
-                console.log(res);
                 setIsLoggedIn(true);
                 const tempAdrr = res.data.address;
                 setAddr(tempAdrr);
@@ -407,7 +403,9 @@ function Mypage({
                             {modal ? (
                                 <Modal
                                     open={modal}
-                                    onClose={modalHandler}
+                                    onClose={() => {
+                                        setModal(false);
+                                    }}
                                     aria-labelledby="modal-modal-title"
                                     aria-describedby="modal-modal-description"
                                 >
@@ -424,7 +422,9 @@ function Mypage({
                                             id="modal-modal-description"
                                             sx={{ mt: 2 }}
                                         >
-                                            {`private key = ${pvKey}`}
+                                            {`private key = ${
+                                                pvKey.slice(0, 20) + '...'
+                                            }`}
                                             <IconButton
                                                 onClick={() => {
                                                     copyWalletAccount('pvKey');

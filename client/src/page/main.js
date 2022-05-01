@@ -1,31 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-
-// import styled from "styled-components";
-
-import PostSummary from '../component/postSummary';
-
-//mui
-import Box from '@mui/material/Box';
-// import Paper from "@mui/material/Paper";
-import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
-// const PostContainer = styled.ul`
-//     top: 15%;
-//     left: 32%;
-//     width: 55%;
-//     height: 100%;
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
 
-//     background-color: green;
-//     justify-content: center;
-//     position: absolute;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: flex-start;
-//     align-items: flex-start;
-// `;
+import GlobalContext from '../context';
+import PostSummary from '../component/postSummary';
 
 const PostContainer = styled(Box)(({ theme }) => ({
     position: 'aboslute',
@@ -36,11 +17,14 @@ const PostContainer = styled(Box)(({ theme }) => ({
     left: '26%',
 }));
 
-function Main({ setEditSeq }) {
+function Main() {
     const [data, setData] = useState();
+    const { setEditSeq, setTitle, setContent } = useContext(GlobalContext);
 
     useEffect(() => {
         setEditSeq(false);
+        setTitle('');
+        setContent('');
         axios.get('http://localhost:4000/').then((res) => {
             setData(res.data.postings);
         });

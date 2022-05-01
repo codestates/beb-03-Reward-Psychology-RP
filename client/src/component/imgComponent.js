@@ -1,3 +1,5 @@
+import React, { useState, useEffect, useContext } from 'react';
+
 import {
     Box,
     Button,
@@ -8,17 +10,15 @@ import {
     CardContent,
     Card,
 } from '@mui/material';
-
-import rpABI from '../rpABI';
-import { useEffect, useState } from 'react';
-import Web3 from 'web3';
 import NFT1 from '../img/NFT1.png';
 import NFT2 from '../img/NFT2.jpeg';
 import NFT3 from '../img/NFT3.png';
+import GlobalContext from '../context';
+
+import Web3 from 'web3';
+import rpABI from '../rpABI';
 const Contract = require('web3-eth-contract');
-
 const rpAddress = '0xb2223FF50e9948839c0134321CDCaCB79f050E39';
-
 const rpcURL = 'https://ropsten.infura.io/v3/0e4ca7c98aff4188997b4dfed819da2d';
 
 Contract.setProvider(rpcURL);
@@ -28,9 +28,10 @@ const tokenContract = new Contract(
     rpAddress // 컨트랙트 주소
 );
 
-const ImgComponent = ({ i, pvKeyInput, setPvKeyInput, checkValidity }) => {
-    const [temp, setTemp] = useState();
+const ImgComponent = () => {
+    const [nftInfo, setNftInfo] = useState();
     const [img, setImg] = useState();
+    const { i, pvKey } = useContext(GlobalContext);
 
     useEffect(() => {
         // For get price for each NFT
@@ -38,7 +39,7 @@ const ImgComponent = ({ i, pvKeyInput, setPvKeyInput, checkValidity }) => {
             .productInfo(`${i}`)
             .call()
             .then((res) => {
-                setTemp(res);
+                setNftInfo(res);
             });
         // set NFT image
         if (i === '0') {
@@ -115,16 +116,16 @@ const ImgComponent = ({ i, pvKeyInput, setPvKeyInput, checkValidity }) => {
                         </div>
                         <CardContent>
                             <Typography>Price</Typography>
-                            {temp ? (
+                            {nftInfo ? (
                                 <Box sx={{ m: 1 }}>
-                                    {Web3.utils.fromWei(temp[0])} RP
+                                    {Web3.utils.fromWei(nftInfo[0])} RP
                                 </Box>
                             ) : null}
-                            {pvKeyInput ? (
+                            {pvKey ? (
                                 <Button
                                     variant="outlined"
                                     onClick={() => {
-                                        myBuyNFT(pvKeyInput, i);
+                                        myBuyNFT(pvKey, i);
                                     }}
                                 >
                                     transact

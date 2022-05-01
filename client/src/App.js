@@ -7,16 +7,18 @@ import NewPost from './page/newPost';
 import ReadPost from './page/readPost';
 import BuyNFT from './page/buyNFT';
 import { useState } from 'react';
+import GlobalContext from './context';
 
 function App() {
-    const [tempTitle, setTempTitle] = useState('');
-    const [tempContent, setTempContent] = useState('');
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userName, setUserName] = useState('default');
     const [addr, setAddr] = useState();
     const [balance, setBalance] = useState(0);
     const [editSeq, setEditSeq] = useState(false);
     const [postingId, setPostingId] = useState();
+    const [pvKey, setPvKey] = useState();
 
     return (
         <div className="App">
@@ -25,59 +27,99 @@ function App() {
                 <Routes>
                     <Route
                         path="/"
-                        element={<Main setEditSeq={setEditSeq} />}
+                        element={
+                            <GlobalContext.Provider
+                                value={{ setEditSeq, setTitle, setContent }}
+                            >
+                                <Main />
+                            </GlobalContext.Provider>
+                        }
                     />
+
                     <Route
                         path="/mypage"
                         element={
-                            <Mypage
-                                isLoggedIn={isLoggedIn}
-                                setIsLoggedIn={setIsLoggedIn}
-                                userName={userName}
-                                setUserName={setUserName}
-                                addr={addr}
-                                setAddr={setAddr}
-                                balance={balance}
-                                setBalance={setBalance}
-                                editSeq={editSeq}
-                                setEditSeq={setEditSeq}
-                            />
+                            <GlobalContext.Provider
+                                value={{
+                                    isLoggedIn,
+                                    setIsLoggedIn,
+                                    userName,
+                                    setUserName,
+                                    addr,
+                                    setAddr,
+                                    balance,
+                                    setBalance,
+                                    editSeq,
+                                    setEditSeq,
+                                    pvKey,
+                                    setPvKey,
+                                    setTitle,
+                                    setContent,
+                                }}
+                            >
+                                <Mypage />
+                            </GlobalContext.Provider>
                         }
                     />
+
                     <Route
                         path="/newpost"
                         element={
-                            <NewPost
-                                editSeq={editSeq}
-                                setEditSeq={setEditSeq}
-                                userName={userName}
-                                postingId={postingId}
-                                tempTitle={tempTitle}
-                                tempContent={tempContent}
-                            />
+                            <GlobalContext.Provider
+                                value={{
+                                    userName,
+                                    addr,
+                                    postingId,
+                                    title,
+                                    setTitle,
+                                    content,
+                                    setContent,
+                                    editSeq,
+                                    setEditSeq,
+                                }}
+                            >
+                                <NewPost />
+                            </GlobalContext.Provider>
                         }
                     />
+
                     <Route
                         path="/readpost/:id"
                         element={
-                            <ReadPost
-                                userName={userName}
-                                setEditSeq={setEditSeq}
-                                setPostingId={setPostingId}
-                                setTempTitle={setTempTitle}
-                                setTempContent={setTempContent}
-                            />
+                            <GlobalContext.Provider
+                                value={{
+                                    userName,
+                                    setPostingId,
+                                    setTitle,
+                                    setContent,
+                                    editSeq,
+                                    setEditSeq,
+                                }}
+                            >
+                                <ReadPost />
+                            </GlobalContext.Provider>
                         }
                     />
+
                     <Route
                         path="/buynft"
                         element={
-                            <BuyNFT
-                                userName={userName}
-                                addr={addr}
-                                balance={balance}
-                                setIsLoggedIn={setIsLoggedIn}
-                            />
+                            <GlobalContext.Provider
+                                value={{
+                                    userName,
+                                    addr,
+                                    balance,
+                                    setBalance,
+                                    setIsLoggedIn,
+                                    pvKey,
+                                    setPvKey,
+                                    setEditSeq,
+                                    setTitle,
+                                    setContent,
+                                }}
+                            >
+                                <BuyNFT />
+                            </GlobalContext.Provider>
                         }
                     />
                 </Routes>

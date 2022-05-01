@@ -1,4 +1,7 @@
-import { Link as RouterLink } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { Link as RouterLink, useParams } from 'react-router-dom';
+import axios from 'axios';
+
 import {
     Container,
     Grid,
@@ -7,26 +10,41 @@ import {
     Stack,
     Typography,
     Box,
+    Modal,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
 
-function ReadPost({
-    userName,
-    setEditSeq,
-    setPostingId,
-    setTempTitle,
-    setTempContent,
-    editSeq,
-}) {
+import GlobalContext from '../context';
+
+function ReadPost() {
     const [data, setData] = useState();
+    const [modal, setModal] = useState(false);
     const [replyText, setReplyText] = useState('');
     const [isClicked, setIsclicked] = useState(false);
     const idParam = useParams().id;
+
+    const {
+        userName,
+        setPostingId,
+        setTitle,
+        setContent,
+        editSeq,
+        setEditSeq,
+    } = useContext(GlobalContext);
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -56,6 +74,14 @@ function ReadPost({
         setReplyText(ev.target.value);
     };
 
+    const sendReq = async () => {
+        let uri = `http://localhost:4000/posts/${idParam}/delete`;
+
+        const res = await axios.get(uri);
+
+        const data = res.data;
+    };
+
     return (
         <Container sx={{ pt: 11 }}>
             <Container>
@@ -75,26 +101,36 @@ function ReadPost({
                         >
                             {data.title}
                             {data.owner === userName ? (
-                                <Link
-                                    component={RouterLink}
-                                    variant="h6"
-                                    to="/newpost"
-                                    sx={{ mt: 2, textAlign: 'right' }}
-                                    onClick={() => {
-                                        setEditSeq(true);
-                                        setPostingId(idParam);
-                                        setTempTitle(data.title);
-                                        setTempContent(data.contents);
-                                    }}
-                                >
-                                    Edit
-                                </Link>
+                                <Box>
+                                    <Link
+                                        component={RouterLink}
+                                        variant="h6"
+                                        to="/newpost"
+                                        sx={{ mt: 2, textAlign: 'right' }}
+                                        onClick={() => {
+                                            setEditSeq(true);
+                                            setPostingId(idParam);
+                                            setTitle(data.title);
+                                            setContent(data.contents);
+                                        }}
+                                    >
+                                        Edit{' '}
+                                    </Link>
+                                    <Link
+                                        variant="h6"
+                                        sx={{ mt: 2, textAlign: 'right' }}
+                                        onClick={() => {
+                                            setModal(true);
+                                        }}
+                                    >
+                                        Delete
+                                    </Link>
+                                </Box>
                             ) : null}
                         </Stack>
                         <Container
                             sx={{
                                 p: 1,
-                                // bgcolor: 'blue',
                                 borderBottom: 1,
                                 fontSize: 20,
                                 textAlign: 'right',
@@ -154,6 +190,46 @@ function ReadPost({
                     </Container>
                 ) : null}
             </Container>
+            {modal ? (
+                <Modal
+                    open={modal}
+                    onClose={() => {
+                        setModal(false);
+                    }}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <Typography
+                            id="modal-modal-title"
+                            variant="h6"
+                            component="h2"
+                        >
+                            You really want to delete this post?
+                        </Typography>
+                        <Button
+                            component={RouterLink}
+                            to={`/mypage`}
+                            variant="outlined"
+                            onClick={() => {
+                                sendReq();
+                            }}
+                            sx={{ mt: 2 }}
+                        >
+                            delete{' '}
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            onClick={() => {
+                                setModal(false);
+                            }}
+                            sx={{ mt: 2 }}
+                        >
+                            cancel
+                        </Button>
+                    </Box>
+                </Modal>
+            ) : null}
         </Container>
     );
 }

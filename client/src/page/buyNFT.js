@@ -1,39 +1,60 @@
-import React, { useState } from 'react';
+import React, { useEffect, useContext } from 'react';
+
 import Stack from '@mui/material/Stack';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, IconButton, TextField, Typography } from '@mui/material';
 import ImgComponent from '../component/imgComponent';
+import GlobalContext from '../context';
 
-function BuyNFT({ userName, addr, balance, setIsLoggedIn }) {
+import web3 from 'web3';
+import rpABI from '../rpABI';
+const Contract = require('web3-eth-contract');
+const rpAddress = '0xb2223FF50e9948839c0134321CDCaCB79f050E39';
+const rpcURL = 'https://ropsten.infura.io/v3/0e4ca7c98aff4188997b4dfed819da2d';
+
+Contract.setProvider(rpcURL);
+
+const tokenContract = new Contract(
+    rpABI,
+    rpAddress // 컨트랙트 주소
+);
+
+function BuyNFT() {
     const tempArr = [0, 1, 2];
-    const [pvKeyInput, setPvKeyInput] = useState('');
 
-    const logoutHandler = () => {
-        setIsLoggedIn(false);
-        window.location.href('/');
-    };
+    const {
+        userName,
+        addr,
+        balance,
+        setBalance,
+        setIsLoggedIn,
+        setEditSeq,
+        setTitle,
+        setContent,
+        pvKey,
+        setPvKey,
+    } = useContext(GlobalContext);
+
+    useEffect(() => {
+        setEditSeq(false);
+        setTitle('');
+        setContent('');
+        if (addr) {
+            tokenContract.methods
+                .balanceOf(addr)
+                .call()
+                .then((res) => {
+                    setBalance(web3.utils.fromWei(res));
+                });
+        }
+    }, [balance]);
 
     // copy to clipboard user wallet address
     const copyWalletAccount = async () => {
         await navigator.clipboard.writeText(addr);
         alert('Wallet address is coppied!');
     };
-
-    // check validity for private key
-    // const checkValidity = (s) => {
-    //     if (!s) {
-    //         alert('Empty Adress!');
-    //         return false;
-    //     } else {
-    //         const maniStr = s.trim();
-    //         if (maniStr.length !== 42 || maniStr.slice(0, 2) !== '0x') {
-    //             alert('Invalid Address!');
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // };
 
     return (
         <div>
@@ -45,7 +66,12 @@ function BuyNFT({ userName, addr, balance, setIsLoggedIn }) {
                 >
                     <Typography variant="h3">
                         {userName}
-                        <IconButton onClick={logoutHandler}>
+                        <IconButton
+                            onClick={() => {
+                                setIsLoggedIn(false);
+                                window.location.href = '/';
+                            }}
+                        >
                             <LogoutIcon />
                         </IconButton>
                     </Typography>
@@ -65,14 +91,11 @@ function BuyNFT({ userName, addr, balance, setIsLoggedIn }) {
             </Typography>
             <Stack direction="row" sx={{ pt: 5 }}>
                 {tempArr.map((elem, idx) => {
+                    const i = String(elem);
                     return (
-                        <ImgComponent
-                            i={JSON.stringify(elem)}
-                            pvKeyInput={pvKeyInput}
-                            setPvKeyInput={setPvKeyInput}
-                            // checkValidity={checkValidity}
-                            key={idx}
-                        />
+                        <GlobalContext.Provider value={{ i, pvKey }} key={idx}>
+                            <ImgComponent />
+                        </GlobalContext.Provider>
                     );
                 })}
             </Stack>
@@ -83,7 +106,7 @@ function BuyNFT({ userName, addr, balance, setIsLoggedIn }) {
                     variant="outlined"
                     placeholder="Write Your Private Key!"
                     onChange={(ev) => {
-                        setPvKeyInput(ev.target.value);
+                        setPvKey(ev.target.value);
                     }}
                     sx={{ mt: 3 }}
                     style={{ width: 400 }}
