@@ -1,11 +1,13 @@
-import React from "react";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import searchIcon from "../img/search.png";
-import postIcon from "../img/pencil.png";
-import userIcon from "../img/user.png";
-import logoIcon from "../img/logo.png";
+import styled from 'styled-components';
+
+import searchIcon from '../img/search.png';
+import postIcon from '../img/pencil.png';
+import userIcon from '../img/user.png';
+import logoIcon from '../img/logo.png';
+import StoreIcon from '../img/store.png';
 
 const TopFix = styled.div`
     display: flex;
@@ -62,7 +64,7 @@ const Search = styled.div`
     align-items: center;
 
     /* top: 0.3%; */
-    right: 15%;
+    right: 25%;
     height: 30px;
     width: 15%;
 `;
@@ -73,11 +75,11 @@ const SearchInput = styled.input`
 
     /* background-color: #dddddd; */
     height: 90%;
-    left: 5%;
+    left: 1%;
 `;
 const SearchButton = styled.img`
     position: absolute;
-    right: 5%;
+    right: 7%;
     top: 14%;
     height: 1.3rem;
     width: 1.3rem;
@@ -89,7 +91,7 @@ const PostButton = styled(Link)`
     display: flex;
     /* top: 0.3%;
     right: 13%; */
-    right: 6%;
+    right: 13%;
     border-style: solid;
     border-width: 2px;
     border-color: #555555;
@@ -97,6 +99,21 @@ const PostButton = styled(Link)`
     padding: 8px;
     /* background-color: orange; */
 
+    height: 1rem;
+    width: 1rem;
+`;
+
+const StoreButton = styled(Link)`
+    position: absolute;
+    display: flex;
+    /* background-color: green; */
+    /* top: 0.3%; */
+    border-style: solid;
+    border-width: 2px;
+    border-color: #555555;
+    border-radius: 15px;
+    padding: 8px;
+    right: 8%;
     height: 1rem;
     width: 1rem;
 `;
@@ -120,9 +137,11 @@ const MypageButton = styled(Link)`
 //     position: absolute;
 // `;
 
-const LogInButton = styled.img``;
+// const LogInButton = styled.img``;
 
 function NavBar({ isLoggedIn }) {
+    // console.log('rendered');
+
     function Post({ to, src }) {
         return (
             <PostButton to={to}>
@@ -130,6 +149,7 @@ function NavBar({ isLoggedIn }) {
             </PostButton>
         );
     }
+
     function Mypage({ to, src }) {
         return (
             <MypageButton to={to}>
@@ -137,6 +157,15 @@ function NavBar({ isLoggedIn }) {
             </MypageButton>
         );
     }
+
+    function NFTStore({ to, src }) {
+        return (
+            <StoreButton to={to}>
+                <img src={src} />
+            </StoreButton>
+        );
+    }
+
     return (
         <TopFix>
             <Link to="/">
@@ -146,11 +175,12 @@ function NavBar({ isLoggedIn }) {
                 </HomeButton>
             </Link>
             <Search>
-                <SearchInput value="Search"></SearchInput>
+                <SearchInput defaultValue="Search"></SearchInput>
                 <SearchButton src={searchIcon} />
             </Search>
-            {isLoggedIn ? <Post to="/post" src={postIcon} /> : null}
-            {isLoggedIn ? <Mypage to="/mypage" src={userIcon} /> : null}
+            {isLoggedIn ? <Post to="/newpost" src={postIcon} /> : null}
+            {isLoggedIn ? <NFTStore to="/buynft" src={StoreIcon} /> : null}
+            <Mypage to="/mypage" src={userIcon} />
         </TopFix>
     );
 }
