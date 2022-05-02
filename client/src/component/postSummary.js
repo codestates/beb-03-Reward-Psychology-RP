@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 
 import styled from "styled-components";
@@ -17,6 +18,19 @@ import {
 
 import commentIcon from "../img/comment.png";
 import upvoteIcon from "../img/upvote.png";
+=======
+import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+
+import styled from 'styled-components';
+
+import Card from '@mui/material/Card';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+
+import commentIcon from '../img/comment.png';
+import upvoteIcon from '../img/upvote.png';
+>>>>>>> d17d7e916228fa52e2339f3f8daa57ae6a2c4331
 
 // prop forwarding 을 이용하자
 
@@ -60,13 +74,22 @@ function PostSummary({
                 paddingLeft: 2,
                 paddingTop: 0,
                 paddingBottom: 0,
+<<<<<<< HEAD
                 flexDirection: "row",
                 alignContent: "left",
+=======
+                flexDirection: 'row',
+                alignContent: 'left',
+>>>>>>> d17d7e916228fa52e2339f3f8daa57ae6a2c4331
             }}
         >
             <Stack direction="row">
                 <Typography
+<<<<<<< HEAD
                     sx={{ fontSize: 12, fontWeight: "bold" }}
+=======
+                    sx={{ fontSize: 12, fontWeight: 'bold' }}
+>>>>>>> d17d7e916228fa52e2339f3f8daa57ae6a2c4331
                     gutterBottom
                     align="left"
                 >
@@ -85,14 +108,25 @@ function PostSummary({
             <Typography
                 variant="h5"
                 component="div"
+<<<<<<< HEAD
                 sx={{ fontSize: 20, fontWeight: "bold" }}
+=======
+                sx={{ fontSize: 20, fontWeight: 'bold' }}
+>>>>>>> d17d7e916228fa52e2339f3f8daa57ae6a2c4331
                 align="left"
             >
                 {title}
             </Typography>
 
+<<<<<<< HEAD
             <Typography variant="body2" align="left">
                 {contents}
+=======
+            <Typography variant="body2" align="left" sx={{ overflow: 'auto' }}>
+                {contents.length > 65
+                    ? contents.slice(0, 65) + '...'
+                    : contents}
+>>>>>>> d17d7e916228fa52e2339f3f8daa57ae6a2c4331
             </Typography>
             <Stack direction="row">
                 <Icon src={upvoteIcon} />
