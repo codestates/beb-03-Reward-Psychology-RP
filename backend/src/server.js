@@ -9,6 +9,8 @@ import MongoStore from 'connect-mongo';
 import rootRouter from './routers/rootRouter.js';
 import userRouter from './routers/userRouter.js';
 import postingRouter from './routers/postingRouter.js';
+import dotenv from 'dotenv';
+dotenv.config({ path: '../.env' });
 
 const app = express();
 const logger = morgan('dev');
@@ -26,7 +28,9 @@ app.use(
         secret: process.env.COOKIE_SECRET,
         resave: false,
         saveUninitialized: false,
-        store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
+        store: MongoStore.create({
+            mongoUrl: process.env.DB_URL,
+        }),
         cookie: {
             domain: 'localhost',
             path: '/',

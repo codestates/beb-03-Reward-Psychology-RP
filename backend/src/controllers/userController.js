@@ -101,7 +101,7 @@ export const postLogin = async (req, res) => {
     req.session.user = user;
 
     console.log('🙆‍♂️ LOG USER IN!');
-    return res.send({ adress: user.adress, userName: user.userName });
+    return res.send({ address: user.address });
 };
 
 export const logout = (req, res) => {
