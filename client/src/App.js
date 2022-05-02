@@ -18,7 +18,8 @@ function App() {
     const [balance, setBalance] = useState(0);
     const [editSeq, setEditSeq] = useState(false);
     const [postingId, setPostingId] = useState();
-    const [pvKey, setPvKey] = useState();
+    const [pvKey, setPvKey] = useState('');
+    const [modal, setModal] = useState(false);
 
     return (
         <div className="App">
@@ -55,6 +56,8 @@ function App() {
                                     setPvKey,
                                     setTitle,
                                     setContent,
+                                    modal,
+                                    setModal,
                                 }}
                             >
                                 <Mypage />
@@ -76,6 +79,8 @@ function App() {
                                     setContent,
                                     editSeq,
                                     setEditSeq,
+                                    modal,
+                                    setModal,
                                 }}
                             >
                                 <NewPost />

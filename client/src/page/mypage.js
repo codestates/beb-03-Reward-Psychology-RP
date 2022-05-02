@@ -13,6 +13,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 import PostSummary from '../component/postSummary';
 import GlobalContext from '../context';
+import { modalStyle } from '../modalStyle';
 
 import web3 from 'web3';
 import rpABI from '../rpABI';
@@ -98,18 +99,6 @@ function Mypage() {
         top: '200px',
         left: '26%',
     }));
-
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    };
 
     const signHandler = () => {
         if (sign === false) {
@@ -409,7 +398,7 @@ function Mypage() {
                                     aria-labelledby="modal-modal-title"
                                     aria-describedby="modal-modal-description"
                                 >
-                                    <Box sx={style}>
+                                    <Box sx={modalStyle}>
                                         <Typography
                                             id="modal-modal-title"
                                             variant="h6"

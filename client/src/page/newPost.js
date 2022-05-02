@@ -16,6 +16,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 import GlobalContext from '../context';
+import { modalStyle } from '../modalStyle';
 
 function NewPost() {
     const {
@@ -48,18 +49,6 @@ function NewPost() {
             setButtonText('edit');
         }
     }, [editSeq]);
-
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    };
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -321,7 +310,7 @@ function NewPost() {
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
                     >
-                        <Box sx={style}>
+                        <Box sx={modalStyle}>
                             <Typography
                                 id="modal-modal-title"
                                 variant="h6"
@@ -352,7 +341,7 @@ function NewPost() {
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
                     >
-                        <Box sx={style}>
+                        <Box sx={modalStyle}>
                             <Typography
                                 id="modal-modal-title"
                                 variant="h6"
