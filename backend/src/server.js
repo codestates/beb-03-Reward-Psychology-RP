@@ -15,7 +15,7 @@ dotenv.config({ path: '../.env' });
 const app = express();
 const logger = morgan('dev');
 const PORT = 4000;
-const corsOptions = { origin: 'localhost:3000' };
+const corsOptions = { origin: 'http://localhost:3000' };
 app.use(cors(corsOptions));
 
 const handleListening = () => {
